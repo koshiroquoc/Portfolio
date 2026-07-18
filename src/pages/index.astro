@@ -1,0 +1,234 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import FigRule from '../components/FigRule.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import AgentDiagram from '../components/diagrams/AgentDiagram.astro';
+import PipelineDiagram from '../components/diagrams/PipelineDiagram.astro';
+import portrait from '../assets/portrait.jpg';
+
+const toolkit = [
+  { group: 'Languages', tags: ['Python', 'R', 'SQL', 'C++'] },
+  { group: 'ML & Evals', tags: ['PyTorch', 'scikit-learn', 'RAG→Agents', 'eval harnesses'] },
+  { group: 'Data & Infra', tags: ['Airflow/Dagster', 'dbt', 'Docker', 'Git', 'CI'] },
+];
+
+// TODO: replace sample EXIF captions with the real data from the 4 photos
+const offClock = [
+  { caption: 'f/2.8 · 1/250s · ISO 400', placeholder: 'photo 1' },
+  { caption: 'f/1.8 · 1/60s · ISO 1600', placeholder: 'photo 2' },
+  { caption: 'f/8 · 1/500s · ISO 100', placeholder: 'photo 3' },
+  { caption: 'f/4 · 1/125s · ISO 800', placeholder: 'photo 4' },
+];
+---
+
+<Base
+  title="Quoc Nguyen — ML Systems"
+  description="Quoc Nguyen — Data Science / Math student building and evaluating ML systems. Open to MLE/SWE roles, Fall 2026."
+>
+  <Nav />
+
+  <header id="top" class="relative flex items-center" style="height: calc(100svh - 64px)">
+    <div class="absolute inset-y-0 left-0 w-px bg-grid" aria-hidden="true"></div>
+    <div class="ticks-left absolute inset-y-0 left-0 w-[7px]" aria-hidden="true"></div>
+    <div class="absolute inset-x-0 bottom-0 h-px bg-grid" aria-hidden="true"></div>
+    <div class="ticks-bottom absolute inset-x-0 bottom-0 h-[7px]" aria-hidden="true"></div>
+    <div class="container-site relative">
+      <p class="caption anim mb-6 text-muted" style="--d: 0ms">
+        Quoc Nguyen — Data Science / Math
+      </p>
+      <h1
+        class="anim font-display max-w-[15ch] text-[clamp(40px,6.5vw,96px)] leading-[1.05] font-semibold tracking-[-0.02em]"
+        style="--d: 60ms"
+      >
+        I build ML systems and <span class="text-accent">measure</span> whether they actually work.
+      </h1>
+      <p
+        class="anim mt-8 max-w-[80ch] font-mono text-[13px] tracking-[0.06em] text-muted"
+        style="--d: 120ms"
+      >
+        // <span class="text-ink">TODO: location</span> · Open to MLE / SWE roles — Fall 2026
+      </p>
+      <div class="anim mt-12 flex gap-12" style="--d: 180ms">
+        <!-- TODO: confirm the three hero numbers are real and interview-defensible -->
+        <div>
+          <div class="font-mono text-[clamp(28px,3.2vw,44px)] leading-none font-medium text-ink">
+            6+
+          </div>
+          <div class="mt-2 font-mono text-[11px] tracking-[0.06em] uppercase text-muted">
+            Shipped projects
+          </div>
+        </div>
+        <div>
+          <div class="font-mono text-[clamp(28px,3.2vw,44px)] leading-none font-medium text-ink">
+            2
+          </div>
+          <div class="mt-2 font-mono text-[11px] tracking-[0.06em] uppercase text-muted">
+            In production
+          </div>
+        </div>
+        <div>
+          <div class="font-mono text-[clamp(28px,3.2vw,44px)] leading-none font-medium text-ink">
+            3.8
+          </div>
+          <div class="mt-2 font-mono text-[11px] tracking-[0.06em] uppercase text-muted">
+            GPA · DS/Math
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section id="projects" class="flex min-h-[75vh] flex-col justify-center py-16 md:py-30">
+    <h2 class="sr-only">Projects</h2>
+    <FigRule fig="Fig. 01" label="Projects" />
+    <div class="container-site">
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+        <ProjectCard
+          href="/projects/agentic-ai"
+          title="Agentic AI system"
+          description="TODO: one-line description of what the agent does and who uses it"
+          metrics={[
+            { value: '87%', label: 'Eval pass rate' },
+            { value: '1.4s', label: 'p50 latency' },
+            { value: '94%', label: 'Tool-call success' },
+          ]}
+          tags={['Python', 'RAG→Agent', 'Evals', 'Deployed']}
+        >
+          <Fragment slot="visual"><AgentDiagram /></Fragment>
+        </ProjectCard>
+        <ProjectCard
+          href="/projects/data-pipeline"
+          title="Data engineering pipeline"
+          description="TODO: one-line description of the pipeline and what it feeds"
+          metrics={[
+            { value: '2.1M', label: 'Rows / day' },
+            { value: '38', label: 'DAG tasks' },
+            { value: '120+', label: 'Quality checks' },
+          ]}
+          tags={['Airflow/Dagster', 'SQL', 'ETL', 'CI']}
+        >
+          <Fragment slot="visual"><PipelineDiagram /></Fragment>
+        </ProjectCard>
+      </div>
+      <p class="mt-4 font-mono text-[11px] tracking-[0.04em] text-muted">
+        // sample numbers — replace with real metrics from each project
+      </p>
+    </div>
+  </section>
+
+  <section id="toolkit" class="flex min-h-[75vh] flex-col justify-center py-16 md:py-30">
+    <h2 class="sr-only">Toolkit</h2>
+    <FigRule fig="Fig. 02" label="Toolkit" />
+    <div class="container-site">
+      <div class="grid grid-cols-1 gap-6 sm:grid-cols-3">
+        {
+          toolkit.map(({ group, tags }) => (
+            <div class="flex flex-col gap-4">
+              <span class="font-mono text-[11px] tracking-[0.08em] uppercase text-muted">
+                {group}
+              </span>
+              <div class="flex flex-wrap gap-2">
+                {tags.map((tag) => (
+                  <span class="rounded-full border border-grid px-3 py-1 font-mono text-xs tracking-[0.04em] text-ink">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="flex min-h-[75vh] flex-col justify-center py-16 md:py-30">
+    <h2 class="sr-only">About</h2>
+    <FigRule fig="Fig. 03" label="About" />
+    <div class="container-site">
+      <div class="grid grid-cols-1 items-start gap-12 md:grid-cols-[1.4fr_1fr]">
+        <div>
+          <p class="max-w-[52ch] text-ink">
+            Hi, I'm Quoc Nguyen — a Data Science and Math student who cares less about model demos
+            and more about whether a system holds up in production.
+          </p>
+          <p class="mt-4 max-w-[52ch] text-muted">
+            I build ML systems end to end — retrieval, agents, and the data pipelines that feed
+            them — and put as much work into the eval harness as into the model. I'm looking for
+            MLE / SWE-with-data roles starting Fall 2026 where measuring what actually works is
+            part of the job.
+          </p>
+        </div>
+        <figure class="m-0">
+          <div
+            class="relative aspect-[4/5] overflow-hidden rounded-xl border border-grid bg-accent-strong"
+          >
+            <Image
+              src={portrait}
+              alt="Quoc Nguyen"
+              widths={[400, 800, 1080]}
+              sizes="(min-width: 768px) 420px, 90vw"
+              class="h-full w-full object-cover object-[60%_30%] mix-blend-luminosity brightness-105 contrast-[1.08] grayscale"
+            />
+          </div>
+          <figcaption class="mt-3 font-mono text-[13px] tracking-[0.05em] text-muted">
+            Self-portrait · shot on TODO: camera
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section id="offclock" class="flex min-h-[75vh] flex-col justify-center py-16 md:py-30">
+    <h2 class="sr-only">Off the clock</h2>
+    <FigRule fig="Fig. 04" label="Off the clock" />
+    <div class="border-y border-grid bg-band py-12">
+      <div class="container-site">
+        <div class="grid grid-cols-2 gap-6 md:grid-cols-4">
+          {
+            offClock.map(({ caption, placeholder }) => (
+              <figure class="m-0">
+                {/* TODO: drop in the 4 real photos (blue duotone treatment) */}
+                <div class="flex aspect-square items-center justify-center overflow-hidden rounded-lg border border-dashed border-grid bg-paper">
+                  <span class="font-mono text-xs tracking-[0.04em] text-muted">{placeholder}</span>
+                </div>
+                <figcaption class="mt-3 font-mono text-[13px] tracking-[0.05em] text-muted">
+                  {caption}
+                </figcaption>
+              </figure>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="flex min-h-[75vh] flex-col justify-center py-16 md:py-30">
+    <h2 class="sr-only">Contact</h2>
+    <FigRule fig="Fig. 05" label="Contact" />
+    <div class="container-site">
+      <div class="flex flex-col items-start gap-4">
+        <a
+          href="mailto:quocnguyenvan49@gmail.com"
+          class="u-link font-mono text-[clamp(18px,3vw,26px)] font-medium text-accent"
+          ><span class="text-muted">email </span>quocnguyenvan49@gmail.com</a
+        >
+        <a
+          href="https://github.com/koshiroquoc"
+          class="u-link font-mono text-[clamp(18px,3vw,26px)] font-medium text-ink"
+          ><span class="text-muted">github </span>github.com/koshiroquoc</a
+        >
+        {/* TODO: confirm LinkedIn URL */}
+        <a
+          href="#contact"
+          class="u-link font-mono text-[clamp(18px,3vw,26px)] font-medium text-ink"
+          ><span class="text-muted">linkedin </span>TODO: linkedin.com/in/…</a
+        >
+      </div>
+      <p class="mt-16 font-mono text-[11px] tracking-[0.05em] text-muted">
+        Fig. 01 — Quoc Nguyen · 2026 · built like a figure from a stats paper.
+      </p>
+    </div>
+  </section>
+</Base>

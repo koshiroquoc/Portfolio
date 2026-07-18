@@ -1,0 +1,22 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+---
+
+<Base title="Fig. 404 — Quoc Nguyen" description="Figure not found.">
+  <Nav />
+  <main class="relative flex items-center" style="height: calc(100svh - 64px)">
+    <div class="absolute inset-y-0 left-0 w-px bg-grid" aria-hidden="true"></div>
+    <div class="ticks-left absolute inset-y-0 left-0 w-[7px]" aria-hidden="true"></div>
+    <div class="absolute inset-x-0 bottom-0 h-px bg-grid" aria-hidden="true"></div>
+    <div class="ticks-bottom absolute inset-x-0 bottom-0 h-[7px]" aria-hidden="true"></div>
+    <div class="container-site relative">
+      <h1 class="anim font-mono text-[clamp(20px,3vw,28px)] font-medium text-ink" style="--d: 0ms">
+        Fig. 404 — figure not found.
+      </h1>
+      <p class="anim mt-6" style="--d: 60ms">
+        <a href="/" class="caption u-link text-accent">← back to Fig. 01</a>
+      </p>
+    </div>
+  </main>
+</Base>

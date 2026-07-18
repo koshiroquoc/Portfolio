@@ -1,0 +1,185 @@
+@import "tailwindcss";
+
+@theme {
+  /* Color tokens — the ONLY colors on the site */
+  --color-paper: #FBFBF9;
+  --color-band: #F4F4F0;
+  --color-ink: #131313;
+  --color-muted: #6E6E68;
+  --color-grid: #E7E7E2;
+  --color-accent: #1F77B4;
+  --color-accent-strong: #175A8E;
+  --color-point: #FF7F0E;
+
+  --font-display: "Space Grotesk", sans-serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  @media (min-width: 768px) {
+    body {
+      font-size: 17px;
+    }
+  }
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-paper);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+}
+
+@layer components {
+  /* 1140px content container; structure bleeds, text doesn't */
+  .container-site {
+    max-width: 1140px;
+    margin-inline: auto;
+    padding-inline: 24px;
+    width: 100%;
+  }
+
+  /* Mono figure caption: 13px, uppercase, tracking 0.08em */
+  .caption {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* Motion 2 — underline slides left→right on hover, 200ms */
+  .u-link {
+    background-image: linear-gradient(var(--color-accent), var(--color-accent));
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 0% 1px;
+    transition: background-size 0.2s ease, color 0.2s ease;
+  }
+  .u-link:hover,
+  .u-link:focus-visible {
+    background-size: 100% 1px;
+    color: var(--color-accent);
+  }
+
+  /* Motion 1 — page load: fade up 12px, 400ms ease-out, stagger via --d */
+  .anim {
+    opacity: 0;
+    animation: fig-fade-up 0.4s ease-out forwards;
+    animation-delay: var(--d, 0ms);
+  }
+  @keyframes fig-fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* Motion 3 — project card: lift + border + orange dot, 180ms */
+  .card {
+    transition: transform 0.18s ease, border-color 0.18s ease;
+  }
+  .card:hover,
+  .card:focus-within {
+    transform: translateY(-3px);
+    border-color: var(--color-accent);
+  }
+  .card .card-dot {
+    opacity: 0;
+    transition: opacity 0.18s ease;
+  }
+  .card:hover .card-dot,
+  .card:focus-within .card-dot {
+    opacity: 1;
+  }
+
+  /* Nav active-section point dot */
+  .nav-dot {
+    opacity: 0;
+    transition: opacity 0.18s ease;
+  }
+  a[data-active="true"] .nav-dot {
+    opacity: 1;
+  }
+
+  /* Hero axis tick marks (grid color, full-bleed structure) */
+  .ticks-left {
+    background-image: repeating-linear-gradient(
+      to bottom,
+      var(--color-grid) 0,
+      var(--color-grid) 1px,
+      transparent 1px,
+      transparent 34px
+    );
+  }
+  .ticks-bottom {
+    background-image: repeating-linear-gradient(
+      to right,
+      var(--color-grid) 0,
+      var(--color-grid) 1px,
+      transparent 1px,
+      transparent 44px
+    );
+  }
+
+  /* Architecture figures: full width inside the detail-page frame, fitted
+     whole inside the fixed-height card slot on Home */
+  .diagram-frame .diagram-svg {
+    width: 100%;
+    height: auto;
+  }
+  .card-visual .diagram-svg {
+    height: 100%;
+    width: auto;
+    max-width: 100%;
+  }
+
+  /* Sticky nav: border appears once scrolled past the hero */
+  #site-nav {
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.18s ease;
+  }
+  #site-nav.scrolled {
+    border-bottom-color: var(--color-grid);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .anim {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .u-link,
+  .card,
+  .card .card-dot,
+  .nav-dot,
+  #site-nav {
+    transition: none !important;
+  }
+  .card:hover,
+  .card:focus-within {
+    transform: none;
+  }
+}

@@ -1,0 +1,119 @@
+---
+// Project detail template — used by both project pages. Section order per
+// spec: header, problem, architecture, evaluation (the differentiator),
+// stack, next steps. Same tokens, 75vh rhythm, and caption style as Home.
+import Base from './Base.astro';
+import Nav from '../components/Nav.astro';
+import FigRule from '../components/FigRule.astro';
+
+interface Props {
+  title: string;
+  summary: string;
+  metaDescription: string;
+  stack: string[];
+  nextSteps: string[];
+}
+const { title, summary, metaDescription, stack, nextSteps } = Astro.props;
+---
+
+<Base title={`${title} — Quoc Nguyen`} description={metaDescription}>
+  <Nav />
+
+  <header class="flex min-h-[75vh] flex-col justify-center py-16 md:py-30">
+    <div class="container-site">
+      <p class="anim mb-6" style="--d: 0ms">
+        <a href="/#projects" class="caption u-link text-muted">← Fig. 01 — Projects</a>
+      </p>
+      <h1
+        class="anim font-display max-w-[18ch] text-[clamp(32px,4.5vw,64px)] leading-[1.05] font-semibold tracking-[-0.02em]"
+        style="--d: 60ms"
+      >
+        {title}
+      </h1>
+      <p class="anim mt-6 max-w-[60ch] text-muted" style="--d: 120ms">{summary}</p>
+      <div class="anim mt-8 flex flex-wrap gap-6" style="--d: 180ms">
+        <slot name="links" />
+      </div>
+      <p class="anim mt-8 font-mono text-[11px] tracking-[0.04em] text-muted" style="--d: 180ms">
+        // draft copy &amp; sample numbers — replace with real project details
+      </p>
+    </div>
+  </header>
+
+  <section class="flex min-h-[75vh] flex-col justify-center py-16 md:py-30">
+    <h2 class="sr-only">Problem</h2>
+    <FigRule fig="Fig. 01" label="Problem" />
+    <div class="container-site">
+      <div class="max-w-[60ch] space-y-4 text-ink">
+        <slot name="problem" />
+      </div>
+    </div>
+  </section>
+
+  <section class="flex min-h-[75vh] flex-col justify-center py-16 md:py-30">
+    <h2 class="sr-only">Architecture</h2>
+    <FigRule fig="Fig. 02" label="Architecture" />
+    <div class="container-site">
+      <figure class="m-0">
+        <div class="overflow-x-auto rounded-xl border border-grid p-6 md:p-8">
+          <div class="diagram-frame min-w-[640px]">
+            <slot name="diagram" />
+          </div>
+        </div>
+        <figcaption class="mt-3 max-w-[80ch] font-mono text-[13px] tracking-[0.05em] text-muted">
+          <slot name="diagram-caption" />
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="flex min-h-[75vh] flex-col justify-center py-16 md:py-30">
+    <h2 class="sr-only">Evaluation</h2>
+    <FigRule fig="Fig. 03" label="Evaluation" />
+    <div class="container-site">
+      <slot name="evaluation" />
+    </div>
+  </section>
+
+  <section class="flex min-h-[75vh] flex-col justify-center py-16 md:py-30">
+    <h2 class="sr-only">Stack and next steps</h2>
+    <FigRule fig="Fig. 04" label="Stack & next steps" />
+    <div class="container-site">
+      <span class="font-mono text-[11px] tracking-[0.08em] uppercase text-muted">Stack</span>
+      <div class="mt-4 flex flex-wrap gap-2">
+        {
+          stack.map((tag) => (
+            <span class="rounded-full border border-grid px-3 py-1 font-mono text-xs tracking-[0.04em] text-ink">
+              {tag}
+            </span>
+          ))
+        }
+      </div>
+      <span class="mt-12 block font-mono text-[11px] tracking-[0.08em] uppercase text-muted"
+        >Next steps</span
+      >
+      <ul class="mt-4 max-w-[60ch] space-y-3">
+        {
+          nextSteps.map((step, i) => (
+            <li class="flex gap-4">
+              <span class="font-mono text-[13px] leading-[1.6] text-muted">
+                0{i + 1}
+              </span>
+              <span class="text-ink">{step}</span>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="mt-16 font-mono text-[11px] tracking-[0.05em] text-muted">
+        Quoc Nguyen · 2026 · built like a figure from a stats paper.
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* Slotted prose paragraphs inherit body styles; keep spacing consistent */
+  .space-y-4 :global(p + p) {
+    margin-top: 16px;
+  }
+</style>

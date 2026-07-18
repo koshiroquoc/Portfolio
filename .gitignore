@@ -1,0 +1,17 @@
+# build output
+dist/
+.astro/
+
+# dependencies
+node_modules/
+
+# environment
+.env
+.env.*
+
+# macOS
+.DS_Store
+
+# QA screenshots
+*.png
+!public/*.png

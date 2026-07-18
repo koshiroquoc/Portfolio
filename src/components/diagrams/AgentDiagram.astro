@@ -1,0 +1,74 @@
+---
+// Line-art architecture figure for the agentic AI system, drawn in the site
+// palette only. TODO: adjust boxes/labels to the real architecture.
+interface Props {
+  title?: string;
+}
+const { title = 'Agentic AI system — architecture' } = Astro.props;
+---
+
+<svg
+  viewBox="0 0 840 440"
+  xmlns="http://www.w3.org/2000/svg"
+  role="img"
+  aria-label={title}
+  class="diagram-svg"
+  style="font-family: 'JetBrains Mono', monospace"
+>
+  <defs>
+    <marker id="ag-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L8 4L0 8z" fill="#131313"></path>
+    </marker>
+    <marker id="ag-arrow-accent" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L8 4L0 8z" fill="#1F77B4"></path>
+    </marker>
+  </defs>
+
+  <!-- user -->
+  <rect x="24" y="164" width="104" height="52" rx="8" fill="none" stroke="#131313"></rect>
+  <text x="76" y="195" text-anchor="middle" font-size="13" fill="#131313">user</text>
+
+  <!-- api -->
+  <rect x="188" y="164" width="120" height="52" rx="8" fill="none" stroke="#131313"></rect>
+  <text x="248" y="195" text-anchor="middle" font-size="13" fill="#131313">api</text>
+
+  <!-- agent loop container -->
+  <rect x="368" y="48" width="300" height="284" rx="12" fill="none" stroke="#E7E7E2" stroke-dasharray="4 4"></rect>
+  <text x="384" y="76" font-size="11" letter-spacing="1" fill="#6E6E68">AGENT LOOP</text>
+
+  <rect x="392" y="150" width="112" height="52" rx="8" fill="none" stroke="#1F77B4"></rect>
+  <text x="448" y="181" text-anchor="middle" font-size="13" fill="#1F77B4">llm</text>
+
+  <rect x="548" y="96" width="100" height="44" rx="8" fill="none" stroke="#131313"></rect>
+  <text x="598" y="122" text-anchor="middle" font-size="12" fill="#131313">retrieval</text>
+  <rect x="548" y="154" width="100" height="44" rx="8" fill="none" stroke="#131313"></rect>
+  <text x="598" y="180" text-anchor="middle" font-size="12" fill="#131313">sql</text>
+  <rect x="548" y="212" width="100" height="44" rx="8" fill="none" stroke="#131313"></rect>
+  <text x="598" y="238" text-anchor="middle" font-size="12" fill="#131313">actions</text>
+
+  <!-- llm ⇄ tools -->
+  <path d="M504 164 H540" stroke="#131313" fill="none" marker-end="url(#ag-arrow)"></path>
+  <path d="M540 188 H512" stroke="#131313" fill="none" marker-end="url(#ag-arrow)"></path>
+  <path d="M506 150 C520 122, 530 120, 541 118" stroke="#131313" fill="none" marker-end="url(#ag-arrow)"></path>
+  <path d="M506 202 C520 228, 530 231, 541 233" stroke="#131313" fill="none" marker-end="url(#ag-arrow)"></path>
+  <text x="448" y="230" text-anchor="middle" font-size="10" fill="#6E6E68">tool calls</text>
+
+  <!-- main flow -->
+  <path d="M128 190 H180" stroke="#1F77B4" fill="none" marker-end="url(#ag-arrow-accent)"></path>
+  <path d="M308 190 H384" stroke="#1F77B4" fill="none" marker-end="url(#ag-arrow-accent)"></path>
+  <path d="M668 190 H724" stroke="#1F77B4" fill="none" marker-end="url(#ag-arrow-accent)"></path>
+
+  <!-- response -->
+  <rect x="732" y="164" width="88" height="52" rx="8" fill="none" stroke="#131313"></rect>
+  <text x="776" y="190" text-anchor="middle" font-size="12" fill="#131313">answer</text>
+  <text x="776" y="204" text-anchor="middle" font-size="10" fill="#6E6E68">+ citations</text>
+
+  <!-- eval harness tapping traces -->
+  <rect x="188" y="368" width="480" height="52" rx="8" fill="none" stroke="#131313"></rect>
+  <text x="428" y="392" text-anchor="middle" font-size="13" fill="#131313">eval harness</text>
+  <text x="428" y="408" text-anchor="middle" font-size="10" fill="#6E6E68">golden set · llm judge · trace scoring</text>
+  <path d="M248 216 V360" stroke="#E7E7E2" stroke-dasharray="4 4" fill="none" marker-end="url(#ag-arrow)"></path>
+  <path d="M518 332 V360" stroke="#E7E7E2" stroke-dasharray="4 4" fill="none" marker-end="url(#ag-arrow)"></path>
+  <text x="256" y="300" font-size="10" fill="#6E6E68">requests</text>
+  <text x="526" y="352" font-size="10" fill="#6E6E68">traces</text>
+</svg>

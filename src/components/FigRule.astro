@@ -1,0 +1,17 @@
+---
+// Full-bleed hairline with mono labels sitting on it — the "Fig. NN" section
+// header. The line bleeds edge to edge; the labels stay in the container.
+interface Props {
+  fig: string;
+  label: string;
+}
+const { fig, label } = Astro.props;
+---
+
+<div class="relative mb-12">
+  <div class="absolute inset-x-0 top-1/2 h-px bg-grid" aria-hidden="true"></div>
+  <div class="container-site relative flex justify-between">
+    <span class="caption bg-paper pr-4 text-muted">{fig}</span>
+    <span class="caption bg-paper pl-4 text-ink">{label}</span>
+  </div>
+</div>

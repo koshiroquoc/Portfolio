@@ -1,0 +1,77 @@
+---
+// Line-art architecture figure for the data pipeline, palette colors only.
+// TODO: adjust boxes/labels to the real pipeline.
+interface Props {
+  title?: string;
+}
+const { title = 'Data engineering pipeline — architecture' } = Astro.props;
+---
+
+<svg
+  viewBox="0 0 840 440"
+  xmlns="http://www.w3.org/2000/svg"
+  role="img"
+  aria-label={title}
+  class="diagram-svg"
+  style="font-family: 'JetBrains Mono', monospace"
+>
+  <defs>
+    <marker id="pl-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L8 4L0 8z" fill="#131313"></path>
+    </marker>
+    <marker id="pl-arrow-accent" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L8 4L0 8z" fill="#1F77B4"></path>
+    </marker>
+  </defs>
+
+  <!-- sources -->
+  <text x="24" y="76" font-size="11" letter-spacing="1" fill="#6E6E68">SOURCES</text>
+  <rect x="24" y="92" width="120" height="44" rx="8" fill="none" stroke="#131313"></rect>
+  <text x="84" y="118" text-anchor="middle" font-size="12" fill="#131313">app db</text>
+  <rect x="24" y="150" width="120" height="44" rx="8" fill="none" stroke="#131313"></rect>
+  <text x="84" y="176" text-anchor="middle" font-size="12" fill="#131313">events</text>
+  <rect x="24" y="208" width="120" height="44" rx="8" fill="none" stroke="#131313"></rect>
+  <text x="84" y="234" text-anchor="middle" font-size="12" fill="#131313">3p apis</text>
+
+  <!-- ingest -->
+  <rect x="216" y="150" width="120" height="44" rx="8" fill="none" stroke="#131313"></rect>
+  <text x="276" y="176" text-anchor="middle" font-size="12" fill="#131313">ingest</text>
+  <path d="M144 114 C176 120, 190 140, 208 158" stroke="#131313" fill="none" marker-end="url(#pl-arrow)"></path>
+  <path d="M144 172 H208" stroke="#131313" fill="none" marker-end="url(#pl-arrow)"></path>
+  <path d="M144 230 C176 224, 190 204, 208 186" stroke="#131313" fill="none" marker-end="url(#pl-arrow)"></path>
+
+  <!-- warehouse container -->
+  <rect x="392" y="72" width="300" height="200" rx="12" fill="none" stroke="#E7E7E2" stroke-dasharray="4 4"></rect>
+  <text x="408" y="100" font-size="11" letter-spacing="1" fill="#6E6E68">WAREHOUSE</text>
+  <rect x="416" y="116" width="108" height="44" rx="8" fill="none" stroke="#131313"></rect>
+  <text x="470" y="142" text-anchor="middle" font-size="12" fill="#131313">staging</text>
+  <rect x="416" y="204" width="108" height="44" rx="8" fill="none" stroke="#1F77B4"></rect>
+  <text x="470" y="230" text-anchor="middle" font-size="12" fill="#1F77B4">dbt models</text>
+  <rect x="560" y="204" width="108" height="44" rx="8" fill="none" stroke="#131313"></rect>
+  <text x="614" y="230" text-anchor="middle" font-size="12" fill="#131313">marts</text>
+  <path d="M470 160 V196" stroke="#131313" fill="none" marker-end="url(#pl-arrow)"></path>
+  <path d="M524 226 H552" stroke="#131313" fill="none" marker-end="url(#pl-arrow)"></path>
+
+  <path d="M336 172 C364 172, 372 150, 408 140" stroke="#1F77B4" fill="none" marker-end="url(#pl-arrow-accent)"></path>
+
+  <!-- consumers -->
+  <rect x="732" y="120" width="88" height="44" rx="8" fill="none" stroke="#131313"></rect>
+  <text x="776" y="146" text-anchor="middle" font-size="12" fill="#131313">bi</text>
+  <rect x="732" y="204" width="88" height="44" rx="8" fill="none" stroke="#131313"></rect>
+  <text x="776" y="224" text-anchor="middle" font-size="12" fill="#131313">ml</text>
+  <text x="776" y="240" text-anchor="middle" font-size="10" fill="#6E6E68">features</text>
+  <path d="M668 210 C692 200, 700 170, 724 148" stroke="#1F77B4" fill="none" marker-end="url(#pl-arrow-accent)"></path>
+  <path d="M668 226 H724" stroke="#1F77B4" fill="none" marker-end="url(#pl-arrow-accent)"></path>
+
+  <!-- orchestrator + quality checks -->
+  <rect x="216" y="340" width="240" height="52" rx="8" fill="none" stroke="#131313"></rect>
+  <text x="336" y="364" text-anchor="middle" font-size="13" fill="#131313">airflow dag</text>
+  <text x="336" y="380" text-anchor="middle" font-size="10" fill="#6E6E68">schedules · retries · backfills</text>
+  <rect x="512" y="340" width="240" height="52" rx="8" fill="none" stroke="#131313"></rect>
+  <text x="632" y="364" text-anchor="middle" font-size="13" fill="#131313">quality checks</text>
+  <text x="632" y="380" text-anchor="middle" font-size="10" fill="#6E6E68">freshness · schema · volume</text>
+  <path d="M276 194 V332" stroke="#E7E7E2" stroke-dasharray="4 4" fill="none" marker-end="url(#pl-arrow)"></path>
+  <path d="M470 252 C470 300, 500 320, 560 336" stroke="#E7E7E2" stroke-dasharray="4 4" fill="none" marker-end="url(#pl-arrow)"></path>
+  <text x="284" y="300" font-size="10" fill="#6E6E68">orchestrates</text>
+  <text x="500" y="312" font-size="10" fill="#6E6E68">gates every model</text>
+</svg>

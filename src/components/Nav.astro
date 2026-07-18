@@ -1,0 +1,56 @@
+---
+// Sticky nav: mono wordmark left, three mono links right. The active section
+// is marked with the orange point dot; a 1px grid border fades in once the
+// page is scrolled past the hero.
+---
+
+<nav id="site-nav" class="sticky top-0 z-50 h-16 bg-paper" aria-label="Main">
+  <div class="container-site flex h-full items-center justify-between gap-4">
+    <a href="/" class="u-link font-mono text-[13px] font-medium tracking-[0.04em] text-ink"
+      >quoc_nguyen<span class="text-muted">.py</span></a
+    >
+    <div class="flex items-center gap-2 sm:gap-6">
+      <a href="/#projects" data-nav="projects" class="caption u-link inline-flex min-h-11 items-center gap-1 text-ink"
+        >Projects<span class="nav-dot h-1.5 w-1.5 rounded-full bg-point" aria-hidden="true"></span></a
+      >
+      <a href="/#about" data-nav="about" class="caption u-link inline-flex min-h-11 items-center gap-1 text-ink"
+        >About<span class="nav-dot h-1.5 w-1.5 rounded-full bg-point" aria-hidden="true"></span></a
+      >
+      <a href="/#contact" data-nav="contact" class="caption u-link inline-flex min-h-11 items-center gap-1 text-ink"
+        >Contact<span class="nav-dot h-1.5 w-1.5 rounded-full bg-point" aria-hidden="true"></span></a
+      >
+    </div>
+  </div>
+</nav>
+
+<script>
+  const nav = document.getElementById('site-nav');
+  const hero = document.getElementById('top');
+
+  if (nav && hero) {
+    new IntersectionObserver(
+      ([entry]) => nav.classList.toggle('scrolled', !entry.isIntersecting),
+      { rootMargin: '-64px 0px 0px 0px', threshold: 0 }
+    ).observe(hero);
+  } else if (nav) {
+    // Detail pages have no hero baseline — keep the border on.
+    nav.classList.add('scrolled');
+  }
+
+  const links = document.querySelectorAll<HTMLAnchorElement>('a[data-nav]');
+  const sectionIO = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        for (const link of links) {
+          link.dataset.active = String(link.dataset.nav === entry.target.id);
+        }
+      }
+    },
+    { rootMargin: '-45% 0px -50% 0px', threshold: 0 }
+  );
+  for (const id of ['projects', 'about', 'contact']) {
+    const el = document.getElementById(id);
+    if (el) sectionIO.observe(el);
+  }
+</script>
