@@ -12,8 +12,9 @@ interface Props {
   metaDescription: string;
   stack: string[];
   nextSteps: string[];
+  draft?: boolean;
 }
-const { title, summary, metaDescription, stack, nextSteps } = Astro.props;
+const { title, summary, metaDescription, stack, nextSteps, draft = true } = Astro.props;
 ---
 
 <Base title={`${title} — Quoc Nguyen`} description={metaDescription}>
@@ -34,9 +35,16 @@ const { title, summary, metaDescription, stack, nextSteps } = Astro.props;
       <div class="anim mt-8 flex flex-wrap gap-6" style="--d: 180ms">
         <slot name="links" />
       </div>
-      <p class="anim mt-8 font-mono text-[11px] tracking-[0.04em] text-muted" style="--d: 180ms">
-        // draft copy &amp; sample numbers — replace with real project details
-      </p>
+      {
+        draft && (
+          <p
+            class="anim mt-8 font-mono text-[11px] tracking-[0.04em] text-muted"
+            style="--d: 180ms"
+          >
+            // draft copy &amp; sample numbers — replace with real project details
+          </p>
+        )
+      }
     </div>
   </header>
 

@@ -5,7 +5,7 @@ import Nav from '../components/Nav.astro';
 import FigRule from '../components/FigRule.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import AgentDiagram from '../components/diagrams/AgentDiagram.astro';
-import PipelineDiagram from '../components/diagrams/PipelineDiagram.astro';
+import BikeshareDiagram from '../components/diagrams/BikeshareDiagram.astro';
 import portrait from '../assets/portrait.jpg';
 
 const toolkit = [
@@ -99,21 +99,21 @@ const offClock = [
           <Fragment slot="visual"><AgentDiagram /></Fragment>
         </ProjectCard>
         <ProjectCard
-          href="/projects/data-pipeline"
-          title="Data engineering pipeline"
-          description="TODO: one-line description of the pipeline and what it feeds"
+          href="/projects/bikeshare-forecast"
+          title="Divvy demand forecasting"
+          description="A leakage-safe ML system that forecasts station-hour bike demand 24 hours ahead."
           metrics={[
-            { value: '2.1M', label: 'Rows / day' },
-            { value: '38', label: 'DAG tasks' },
-            { value: '120+', label: 'Quality checks' },
+            { value: '24.6%', label: 'MAE reduction' },
+            { value: '200', label: 'Stations' },
+            { value: '51', label: 'Tests' },
           ]}
-          tags={['Airflow/Dagster', 'SQL', 'ETL', 'CI']}
+          tags={['LightGBM', 'Polars', 'FastAPI', 'Docker']}
         >
-          <Fragment slot="visual"><PipelineDiagram /></Fragment>
+          <Fragment slot="visual"><BikeshareDiagram /></Fragment>
         </ProjectCard>
       </div>
       <p class="mt-4 font-mono text-[11px] tracking-[0.04em] text-muted">
-        // sample numbers — replace with real metrics from each project
+        // Divvy metrics: four rolling-origin evaluation months · 51-test production suite
       </p>
     </div>
   </section>

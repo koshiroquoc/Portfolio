@@ -1,0 +1,163 @@
+---
+interface Props {
+  title?: string;
+}
+
+const {
+  title = 'Divvy demand forecasting system — training, serving, and monitoring architecture',
+} = Astro.props;
+---
+
+<svg
+  viewBox="0 0 840 440"
+  xmlns="http://www.w3.org/2000/svg"
+  role="img"
+  aria-label={title}
+  class="diagram-svg"
+  style="font-family: 'JetBrains Mono', monospace"
+>
+  <defs>
+    <marker
+      id="bike-arrow"
+      viewBox="0 0 8 8"
+      refX="7"
+      refY="4"
+      markerWidth="7"
+      markerHeight="7"
+      orient="auto-start-reverse"
+    >
+      <path d="M0 0L8 4L0 8z" fill="#131313"></path>
+    </marker>
+    <marker
+      id="bike-arrow-accent"
+      viewBox="0 0 8 8"
+      refX="7"
+      refY="4"
+      markerWidth="7"
+      markerHeight="7"
+      orient="auto-start-reverse"
+    >
+      <path d="M0 0L8 4L0 8z" fill="#1F77B4"></path>
+    </marker>
+  </defs>
+
+  <text x="24" y="52" font-size="11" letter-spacing="1" fill="#6E6E68">
+    TRAIN
+  </text>
+  <rect x="24" y="72" width="126" height="52" rx="8" fill="none" stroke="#131313"></rect>
+  <text x="87" y="94" text-anchor="middle" font-size="12" fill="#131313">Divvy trips</text>
+  <text x="87" y="111" text-anchor="middle" font-size="10" fill="#6E6E68">station · hour</text>
+
+  <rect x="24" y="144" width="126" height="52" rx="8" fill="none" stroke="#131313"></rect>
+  <text x="87" y="166" text-anchor="middle" font-size="12" fill="#131313">weather</text>
+  <text x="87" y="183" text-anchor="middle" font-size="10" fill="#6E6E68">observed hourly</text>
+
+  <rect x="212" y="104" width="150" height="60" rx="8" fill="none" stroke="#131313"></rect>
+  <text x="287" y="129" text-anchor="middle" font-size="12" fill="#131313">leak-safe grid</text>
+  <text x="287" y="147" text-anchor="middle" font-size="10" fill="#6E6E68">lags ≥ 24h · zero fill</text>
+
+  <path
+    d="M150 98 C176 98, 184 118, 204 126"
+    stroke="#131313"
+    fill="none"
+    marker-end="url(#bike-arrow)"
+  ></path>
+  <path
+    d="M150 170 C176 170, 184 150, 204 142"
+    stroke="#131313"
+    fill="none"
+    marker-end="url(#bike-arrow)"
+  ></path>
+
+  <rect x="424" y="104" width="142" height="60" rx="8" fill="none" stroke="#1F77B4"></rect>
+  <text x="495" y="129" text-anchor="middle" font-size="12" fill="#1F77B4">LightGBM</text>
+  <text x="495" y="147" text-anchor="middle" font-size="10" fill="#6E6E68">Poisson artifact</text>
+  <path
+    d="M362 134 H416"
+    stroke="#1F77B4"
+    fill="none"
+    marker-end="url(#bike-arrow-accent)"
+  ></path>
+
+  <text x="628" y="52" font-size="11" letter-spacing="1" fill="#6E6E68">
+    SERVE
+  </text>
+  <rect x="628" y="72" width="188" height="124" rx="10" fill="none" stroke="#E7E7E2"></rect>
+  <line x1="650" y1="170" x2="796" y2="170" stroke="#E7E7E2"></line>
+  <line x1="650" y1="92" x2="650" y2="170" stroke="#E7E7E2"></line>
+  <path
+    d="M650 151 C670 142, 682 155, 700 137 C720 116, 734 132, 750 108 C766 84, 780 114, 796 96"
+    fill="none"
+    stroke="#1F77B4"
+    stroke-width="2.5"
+  ></path>
+  <circle cx="674" cy="147" r="4" fill="#FF7F0E"></circle>
+  <circle cx="724" cy="124" r="4" fill="#FF7F0E"></circle>
+  <circle cx="774" cy="107" r="4" fill="#FF7F0E"></circle>
+  <text x="722" y="188" text-anchor="middle" font-size="10" fill="#6E6E68">
+    200 stations · next 24h
+  </text>
+  <path
+    d="M566 134 H620"
+    stroke="#1F77B4"
+    fill="none"
+    marker-end="url(#bike-arrow-accent)"
+  ></path>
+
+  <rect x="628" y="226" width="188" height="48" rx="8" fill="none" stroke="#131313"></rect>
+  <text x="722" y="247" text-anchor="middle" font-size="12" fill="#131313">prediction store</text>
+  <text x="722" y="264" text-anchor="middle" font-size="10" fill="#6E6E68">FastAPI · model version</text>
+  <path
+    d="M722 196 V218"
+    stroke="#131313"
+    fill="none"
+    marker-end="url(#bike-arrow)"
+  ></path>
+
+  <text x="24" y="304" font-size="11" letter-spacing="1" fill="#6E6E68">
+    MEASURE
+  </text>
+  <rect x="24" y="324" width="198" height="60" rx="8" fill="none" stroke="#131313"></rect>
+  <text x="123" y="349" text-anchor="middle" font-size="12" fill="#131313">
+    rolling-origin eval
+  </text>
+  <text x="123" y="367" text-anchor="middle" font-size="10" fill="#6E6E68">
+    4 unseen calendar months
+  </text>
+
+  <rect x="286" y="324" width="198" height="60" rx="8" fill="none" stroke="#131313"></rect>
+  <text x="385" y="349" text-anchor="middle" font-size="12" fill="#131313">
+    monitoring gates
+  </text>
+  <text x="385" y="367" text-anchor="middle" font-size="10" fill="#6E6E68">
+    MAE · input drift
+  </text>
+
+  <rect x="548" y="324" width="268" height="60" rx="8" fill="none" stroke="#131313"></rect>
+  <text x="682" y="349" text-anchor="middle" font-size="12" fill="#131313">
+    champion / challenger
+  </text>
+  <text x="682" y="367" text-anchor="middle" font-size="10" fill="#6E6E68">
+    promote only on truly unseen data
+  </text>
+
+  <path
+    d="M222 354 H278"
+    stroke="#E7E7E2"
+    fill="none"
+    marker-end="url(#bike-arrow)"
+  ></path>
+  <path
+    d="M484 354 H540"
+    stroke="#E7E7E2"
+    fill="none"
+    marker-end="url(#bike-arrow)"
+  ></path>
+  <path
+    d="M722 274 C722 300, 678 304, 590 318"
+    stroke="#E7E7E2"
+    stroke-dasharray="4 4"
+    fill="none"
+    marker-end="url(#bike-arrow)"
+  ></path>
+</svg>

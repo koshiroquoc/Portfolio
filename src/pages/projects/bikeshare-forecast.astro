@@ -1,0 +1,173 @@
+---
+import ProjectLayout from '../../layouts/ProjectLayout.astro';
+import BikeshareDiagram from '../../components/diagrams/BikeshareDiagram.astro';
+---
+
+<ProjectLayout
+  title="Divvy demand forecasting"
+  summary="An end-to-end ML system that forecasts demand for 200 Chicago bikeshare stations, 24 hours ahead—and measures whether the forecast stays trustworthy."
+  metaDescription="Divvy demand forecasting by Quoc Nguyen: leakage-safe LightGBM backtesting, batch serving, monitoring, Docker, and CI."
+  stack={[
+    'Python',
+    'Polars',
+    'LightGBM',
+    'MLflow',
+    'Prefect',
+    'FastAPI',
+    'Evidently',
+    'Docker',
+    'GitHub Actions',
+  ]}
+  nextSteps={[
+    'Replace historical weather replay with a live forecast-weather provider and monitor that train/serve gap.',
+    'Deploy the API behind HTTPS and add a small station map for exploring the next 24 hours.',
+    'Collect a complete unseen month before allowing the first champion/challenger promotion.',
+  ]}
+  draft={false}
+>
+  <Fragment slot="links">
+    <a
+      href="https://github.com/koshiroquoc/bikeshare-forecast"
+      class="u-link font-mono text-[13px] tracking-[0.04em] text-accent"
+      target="_blank"
+      rel="noreferrer"
+    >
+      repo ↗
+    </a>
+    <span class="font-mono text-[13px] tracking-[0.04em] text-muted">
+      local API · Docker Compose
+    </span>
+  </Fragment>
+
+  <Fragment slot="problem">
+    <p>
+      Rebalancing a bikeshare network is a timing problem: operators need to know where
+      demand will appear before a station becomes empty or full. A citywide total is not
+      actionable, so the prediction target is demand for each station in each hour, one
+      day ahead.
+    </p>
+    <p class="text-muted">
+      The hard part is not fitting a model. At a 24-hour horizon, recent trip counts are
+      unavailable at prediction time; ordinary rolling features quietly leak them. The
+      system therefore treats the station-hour grid, temporal cutoff, artifact version,
+      and replay date as enforceable contracts rather than notebook conventions.
+    </p>
+  </Fragment>
+
+  <Fragment slot="diagram"><BikeshareDiagram /></Fragment>
+  <Fragment slot="diagram-caption">
+    Fig. 02 — Trips and weather become leak-safe station-hour features. Versioned
+    artifacts feed a batch prediction store; evaluation, drift, and promotion gates close
+    the loop.
+  </Fragment>
+
+  <Fragment slot="evaluation">
+    <div class="max-w-[60ch]">
+      <span class="font-mono text-[11px] tracking-[0.08em] uppercase text-muted">
+        Measured
+      </span>
+      <p class="mt-4 text-ink">
+        MAE, RMSE, and MASE across four rolling-origin calendar months. Every model sees
+        the same time cutoffs, and every target-derived feature uses information at least
+        24 hours old.
+      </p>
+      <span class="mt-8 block font-mono text-[11px] tracking-[0.08em] uppercase text-muted">
+        Eval design
+      </span>
+      <p class="mt-4 text-muted">
+        Each monthly window trains only on earlier rows, reserves the final training month
+        for early stopping, and evaluates on the next unseen month. A leakage guard
+        corrupts values that would be unavailable at serving time and verifies that the
+        generated features do not change.
+      </p>
+    </div>
+
+    <div class="mt-12 grid max-w-[720px] grid-cols-1 gap-6 sm:grid-cols-3 sm:gap-4">
+      <div>
+        <div class="font-mono text-[30px] leading-none font-medium text-ink">1.101</div>
+        <div class="mt-2 font-mono text-[11px] tracking-[0.06em] uppercase text-muted">
+          Final MAE
+        </div>
+      </div>
+      <div>
+        <div class="font-mono text-[30px] leading-none font-medium text-ink">24.6%</div>
+        <div class="mt-2 font-mono text-[11px] tracking-[0.06em] uppercase text-muted">
+          Vs. seasonal naive
+        </div>
+      </div>
+      <div>
+        <div class="font-mono text-[30px] leading-none font-medium text-ink">51</div>
+        <div class="mt-2 font-mono text-[11px] tracking-[0.06em] uppercase text-muted">
+          Tests in CI
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-12 max-w-[720px] overflow-x-auto">
+      <table class="w-full min-w-[560px] border-collapse text-left">
+        <caption class="caption mb-4 text-left text-muted">
+          Four-month rolling-origin results
+        </caption>
+        <thead>
+          <tr class="border-b border-grid">
+            <th class="py-3 pr-4 font-mono text-[11px] font-medium tracking-[0.06em] uppercase text-muted">
+              Predictor
+            </th>
+            <th class="py-3 pr-4 font-mono text-[11px] font-medium tracking-[0.06em] uppercase text-muted">
+              MAE
+            </th>
+            <th class="py-3 pr-4 font-mono text-[11px] font-medium tracking-[0.06em] uppercase text-muted">
+              RMSE
+            </th>
+            <th class="py-3 font-mono text-[11px] font-medium tracking-[0.06em] uppercase text-muted">
+              MASE
+            </th>
+          </tr>
+        </thead>
+        <tbody class="font-mono text-[13px] text-ink">
+          <tr class="border-b border-grid">
+            <td class="py-3 pr-4 text-accent">LightGBM · Poisson</td>
+            <td class="py-3 pr-4">1.101</td>
+            <td class="py-3 pr-4">1.832</td>
+            <td class="py-3">0.755</td>
+          </tr>
+          <tr class="border-b border-grid">
+            <td class="py-3 pr-4">Historical mean</td>
+            <td class="py-3 pr-4 text-muted">1.198</td>
+            <td class="py-3 pr-4 text-muted">2.267</td>
+            <td class="py-3 text-muted">0.820</td>
+          </tr>
+          <tr class="border-b border-grid">
+            <td class="py-3 pr-4">Seasonal naive</td>
+            <td class="py-3 pr-4 text-muted">1.460</td>
+            <td class="py-3 pr-4 text-muted">2.673</td>
+            <td class="py-3 text-muted">1.000</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="mt-12 max-w-[60ch]">
+      <span class="font-mono text-[11px] tracking-[0.08em] uppercase text-muted">
+        What failed → what was fixed
+      </span>
+      <p class="mt-4 text-muted">
+        An ordinary seven-day rolling mean would include trip counts from the previous
+        1–23 hours—values unavailable for a 24-hour-ahead forecast. I replaced it with a
+        same-hour daily window shifted by at least 24 hours, then added a corruption test
+        that fails if future information changes an inference-time feature.
+      </p>
+    </div>
+
+    <div class="mt-12 max-w-[60ch] border-l border-accent pl-6">
+      <span class="font-mono text-[11px] tracking-[0.08em] uppercase text-muted">
+        Production evidence
+      </span>
+      <p class="mt-4 text-muted">
+        A seven-day historical replay completed 33,600 station-hour forecasts. Performance
+        held at 1.410 MAE against a 1.706 alert threshold; the separate drift gate warned
+        on changing inputs without mislabeling the model as failed.
+      </p>
+    </div>
+  </Fragment>
+</ProjectLayout>
