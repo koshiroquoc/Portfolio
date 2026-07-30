@@ -1,0 +1,132 @@
+---
+// Line-art figure for the Da Nang RAG assistant: provenance-backed place data
+// on the left, the query path across the middle, evaluation tapping both.
+// Site palette only.
+interface Props {
+  title?: string;
+}
+const { title = 'Da Nang RAG assistant — architecture' } = Astro.props;
+---
+
+<svg
+  viewBox="0 0 840 440"
+  xmlns="http://www.w3.org/2000/svg"
+  role="img"
+  aria-label={title}
+  class="diagram-svg"
+  style="font-family: 'JetBrains Mono', monospace"
+>
+  <defs>
+    <marker
+      id="rg-arrow"
+      viewBox="0 0 8 8"
+      refX="7"
+      refY="4"
+      markerWidth="7"
+      markerHeight="7"
+      orient="auto-start-reverse"
+    >
+      <path d="M0 0L8 4L0 8z" fill="#131313"></path>
+    </marker>
+    <marker
+      id="rg-arrow-accent"
+      viewBox="0 0 8 8"
+      refX="7"
+      refY="4"
+      markerWidth="7"
+      markerHeight="7"
+      orient="auto-start-reverse"
+    >
+      <path d="M0 0L8 4L0 8z" fill="#1F77B4"></path>
+    </marker>
+  </defs>
+
+  <!-- data pipeline -->
+  <text x="24" y="36" font-size="11" letter-spacing="1" fill="#6E6E68">PLACE DATA</text>
+
+  <rect x="24" y="52" width="132" height="40" rx="8" fill="none" stroke="#131313"></rect>
+  <text x="90" y="70" text-anchor="middle" font-size="12" fill="#131313">OSM Overpass</text>
+  <text x="90" y="84" text-anchor="middle" font-size="10" fill="#6E6E68">reproducible base</text>
+
+  <rect x="24" y="106" width="132" height="40" rx="8" fill="none" stroke="#131313"></rect>
+  <text x="90" y="124" text-anchor="middle" font-size="12" fill="#131313">Wikivoyage</text>
+  <text x="90" y="138" text-anchor="middle" font-size="10" fill="#6E6E68">fill-null overlay</text>
+
+  <rect x="24" y="160" width="132" height="44" rx="8" fill="none" stroke="#131313"></rect>
+  <text x="90" y="180" text-anchor="middle" font-size="12" fill="#131313">quality gates</text>
+  <text x="90" y="194" text-anchor="middle" font-size="10" fill="#6E6E68">schema · provenance</text>
+
+  <rect x="196" y="106" width="128" height="52" rx="8" fill="none" stroke="#131313"></rect>
+  <text x="260" y="128" text-anchor="middle" font-size="12" fill="#131313">Elasticsearch</text>
+  <text x="260" y="143" text-anchor="middle" font-size="10" fill="#6E6E68">MiniLM-L6 vectors</text>
+
+  <path d="M156 72 C176 72, 178 110, 188 122" stroke="#131313" fill="none" marker-end="url(#rg-arrow)"></path>
+  <path d="M156 126 H188" stroke="#131313" fill="none" marker-end="url(#rg-arrow)"></path>
+  <path d="M156 182 C176 182, 178 152, 188 142" stroke="#131313" fill="none" marker-end="url(#rg-arrow)"></path>
+
+  <!-- query path -->
+  <text x="376" y="36" font-size="11" letter-spacing="1" fill="#6E6E68">QUERY PATH</text>
+
+  <rect x="376" y="52" width="128" height="44" rx="8" fill="none" stroke="#131313"></rect>
+  <text x="440" y="72" text-anchor="middle" font-size="12" fill="#131313">user query</text>
+  <text x="440" y="86" text-anchor="middle" font-size="10" fill="#6E6E68">Streamlit</text>
+
+  <rect x="376" y="118" width="128" height="58" rx="8" fill="none" stroke="#1F77B4"></rect>
+  <text x="440" y="140" text-anchor="middle" font-size="12" fill="#1F77B4">query planner</text>
+  <text x="440" y="154" text-anchor="middle" font-size="10" fill="#6E6E68">Gemini self-query</text>
+  <text x="440" y="167" text-anchor="middle" font-size="10" fill="#6E6E68">+ validation guards</text>
+
+  <rect x="376" y="196" width="128" height="58" rx="8" fill="none" stroke="#1F77B4"></rect>
+  <text x="440" y="218" text-anchor="middle" font-size="12" fill="#1F77B4">hybrid RRF</text>
+  <text x="440" y="232" text-anchor="middle" font-size="10" fill="#6E6E68">BM25 + vector</text>
+  <text x="440" y="245" text-anchor="middle" font-size="10" fill="#6E6E68">+ exact filters</text>
+
+  <rect x="568" y="196" width="128" height="58" rx="8" fill="none" stroke="#131313"></rect>
+  <text x="632" y="218" text-anchor="middle" font-size="12" fill="#131313">generation</text>
+  <text x="632" y="232" text-anchor="middle" font-size="10" fill="#6E6E68">grounded prompt</text>
+  <text x="632" y="245" text-anchor="middle" font-size="10" fill="#6E6E68">top-k = 3</text>
+
+  <rect x="740" y="196" width="76" height="58" rx="8" fill="none" stroke="#131313"></rect>
+  <text x="778" y="222" text-anchor="middle" font-size="12" fill="#131313">answer</text>
+  <text x="778" y="236" text-anchor="middle" font-size="10" fill="#6E6E68">[S#] cites</text>
+
+  <path d="M440 96 V110" stroke="#1F77B4" fill="none" marker-end="url(#rg-arrow-accent)"></path>
+  <path d="M440 176 V188" stroke="#1F77B4" fill="none" marker-end="url(#rg-arrow-accent)"></path>
+  <path d="M504 225 H560" stroke="#1F77B4" fill="none" marker-end="url(#rg-arrow-accent)"></path>
+  <path d="M696 225 H732" stroke="#1F77B4" fill="none" marker-end="url(#rg-arrow-accent)"></path>
+  <path d="M324 136 C348 136, 352 200, 368 216" stroke="#131313" fill="none" marker-end="url(#rg-arrow)"></path>
+
+  <!-- eval lane -->
+  <rect
+    x="196"
+    y="300"
+    width="620"
+    height="112"
+    rx="12"
+    fill="none"
+    stroke="#E7E7E2"
+    stroke-dasharray="4 4"></rect>
+  <text x="212" y="324" font-size="11" letter-spacing="1" fill="#6E6E68">
+    EVALUATION — FINGERPRINTED TO THE DATASET
+  </text>
+
+  <rect x="216" y="340" width="176" height="56" rx="8" fill="none" stroke="#131313"></rect>
+  <text x="304" y="362" text-anchor="middle" font-size="12" fill="#131313">retrieval benchmark</text>
+  <text x="304" y="376" text-anchor="middle" font-size="10" fill="#6E6E68">210 queries · 6 variants</text>
+  <text x="304" y="389" text-anchor="middle" font-size="10" fill="#6E6E68">paired bootstrap CIs</text>
+
+  <rect x="412" y="340" width="176" height="56" rx="8" fill="none" stroke="#131313"></rect>
+  <text x="500" y="362" text-anchor="middle" font-size="12" fill="#131313">self-query benchmark</text>
+  <text x="500" y="376" text-anchor="middle" font-size="10" fill="#6E6E68">planner vs oracle filters</text>
+  <text x="500" y="389" text-anchor="middle" font-size="10" fill="#6E6E68">120 queries</text>
+
+  <rect x="608" y="340" width="176" height="56" rx="8" fill="none" stroke="#131313"></rect>
+  <text x="696" y="362" text-anchor="middle" font-size="12" fill="#131313">generation judge</text>
+  <text x="696" y="376" text-anchor="middle" font-size="10" fill="#6E6E68">faithfulness · relevance</text>
+  <text x="696" y="389" text-anchor="middle" font-size="10" fill="#6E6E68">separate model</text>
+
+  <path d="M440 254 V292" stroke="#E7E7E2" stroke-dasharray="4 4" fill="none" marker-end="url(#rg-arrow)"></path>
+  <path d="M632 254 V292" stroke="#E7E7E2" stroke-dasharray="4 4" fill="none" marker-end="url(#rg-arrow)"></path>
+  <text x="450" y="278" font-size="10" fill="#6E6E68">ranked hits</text>
+  <text x="642" y="278" font-size="10" fill="#6E6E68">answers</text>
+</svg>

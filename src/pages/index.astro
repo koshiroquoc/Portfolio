@@ -4,9 +4,31 @@ import Base from '../layouts/Base.astro';
 import Nav from '../components/Nav.astro';
 import FigRule from '../components/FigRule.astro';
 import ProjectCard from '../components/ProjectCard.astro';
-import AgentDiagram from '../components/diagrams/AgentDiagram.astro';
+import WideCard from '../components/WideCard.astro';
+import OtherWork from '../components/OtherWork.astro';
+import CausalDiagram from '../components/diagrams/CausalDiagram.astro';
+import RagDiagram from '../components/diagrams/RagDiagram.astro';
 import BikeshareDiagram from '../components/diagrams/BikeshareDiagram.astro';
 import portrait from '../assets/portrait.jpg';
+
+// Table 1 — secondary team projects. Role is stated so nothing here implies
+// more ownership than the git history supports.
+const otherWork = [
+  {
+    name: 'UrbanPulse',
+    what: 'Spatial hotness ranking for city exploration · CheeseHacks',
+    role: 'team of 4 · scoring & ranking',
+    when: 'Mar 2026',
+    href: 'https://github.com/M1nhbui/banhmi-cheesehacks',
+  },
+  {
+    name: 'GhostMarket',
+    what: 'Sentiment/price decoupling stream pipeline · hackathon',
+    role: 'team of 3 · price ingestion',
+    when: 'Feb 2026',
+    href: 'https://github.com/M1nhbui/ghost_market_936',
+  },
+];
 
 const toolkit = [
   { group: 'Languages', tags: ['Python', 'R', 'SQL', 'C++'] },
@@ -84,24 +106,37 @@ const offClock = [
     <h2 class="sr-only">Projects</h2>
     <FigRule fig="Fig. 01" label="Projects" />
     <div class="container-site">
-      <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+      <WideCard
+        href="/projects/bikelane-causal"
+        title="Protected bike lanes & Divvy ridership"
+        description="A causal study of whether newly completed protected bike-lane corridors changed monthly Divvy trip starts at nearby stations. The design was locked before any treatment effect was read."
+        metrics={[
+          { value: '−10.8%', label: 'Primary ATT · 95% CI −24.0 to +2.3' },
+          { value: '16', label: 'Pre-locked robustness specs' },
+          { value: '12', label: 'Corridors · 40 treated stations' },
+        ]}
+        tags={['Python', 'Group-time ATT', 'GeoPandas', 'statsmodels']}
+      >
+        <Fragment slot="visual"><CausalDiagram /></Fragment>
+      </WideCard>
+      <div class="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2">
         <ProjectCard
-          href="/projects/agentic-ai"
-          title="Agentic AI system"
-          description="TODO: one-line description of what the agent does and who uses it"
+          href="/projects/danang-rag"
+          title="Da Nang RAG assistant"
+          description="A grounded local-guide assistant over provenance-backed OpenStreetMap places, with a benchmark that decides which retrieval strategy ships."
           metrics={[
-            { value: '87%', label: 'Eval pass rate' },
-            { value: '1.4s', label: 'p50 latency' },
-            { value: '94%', label: 'Tool-call success' },
+            { value: '0.957', label: 'MRR@5 · self-query' },
+            { value: '97.5%', label: 'Planner exact match' },
+            { value: '210', label: 'Benchmark queries' },
           ]}
-          tags={['Python', 'RAG→Agent', 'Evals', 'Deployed']}
+          tags={['Elasticsearch', 'Hybrid RRF', 'Gemini', 'Docker']}
         >
-          <Fragment slot="visual"><AgentDiagram /></Fragment>
+          <Fragment slot="visual"><RagDiagram /></Fragment>
         </ProjectCard>
         <ProjectCard
           href="/projects/bikeshare-forecast"
           title="Divvy demand forecasting"
-          description="A leakage-safe ML system that forecasts station-hour bike demand 24 hours ahead."
+          description="A leakage-safe ML system that forecasts station-hour bike demand 24 hours ahead — and the upstream panel the causal study reads from."
           metrics={[
             { value: '24.6%', label: 'MAE reduction' },
             { value: '200', label: 'Stations' },
@@ -112,9 +147,7 @@ const offClock = [
           <Fragment slot="visual"><BikeshareDiagram /></Fragment>
         </ProjectCard>
       </div>
-      <p class="mt-4 font-mono text-[11px] tracking-[0.04em] text-muted">
-        // Divvy metrics: four rolling-origin evaluation months · 51-test production suite
-      </p>
+      <OtherWork rows={otherWork} />
     </div>
   </section>
 

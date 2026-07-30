@@ -1,0 +1,354 @@
+---
+import { Image } from 'astro:assets';
+import ProjectLayout from '../../layouts/ProjectLayout.astro';
+import CausalDiagram from '../../components/diagrams/CausalDiagram.astro';
+import studyDesign from '../../assets/figures/bikelane-study-design.png';
+import eventStudy from '../../assets/figures/bikelane-event-study.png';
+import geographyPlacebo from '../../assets/figures/bikelane-geography-placebo.png';
+---
+
+<ProjectLayout
+  title="Protected bike lanes & Divvy ridership"
+  summary="A causal study of whether newly completed protected bike-lane corridors changed monthly Divvy trip starts at nearby stations. The design was locked before any treatment effect was read, and the checks it failed are still in the write-up."
+  metaDescription="A causal study by Quoc Nguyen of protected bike lanes and Divvy ridership: matched group-time ATT, pre-registered gates, 16 robustness specifications, and 50 geography placebos."
+  stack={['Python', 'pandas', 'GeoPandas', 'statsmodels', 'SciPy', 'Matplotlib', 'Pytest', 'Make']}
+  nextSteps={[
+    'Replace the medium-confidence first-verified treatment dates with permit or construction records — shifting conservative dates one month earlier is currently enough to move the interval off zero, and that fragility is the weakest part of the design.',
+    'Extend the placebo inventory from a concurrent-project proxy to a complete registry of Chicago transport projects, so the geography tail criterion is tested against real alternatives rather than an approximation of them.',
+    'Source monthly station coordinates so relocations inside the panel can be reconstructed instead of assumed away.',
+  ]}
+  draft={false}
+>
+  <Fragment slot="links">
+    <a
+      href="https://github.com/koshiroquoc/bikelane-causal"
+      class="u-link font-mono text-[13px] tracking-[0.04em] text-accent"
+      target="_blank"
+      rel="noreferrer"
+    >
+      repo ↗
+    </a>
+    <span class="font-mono text-[13px] tracking-[0.04em] text-muted">
+      release v1.0.0 · make reproduce
+    </span>
+    <span class="font-mono text-[13px] tracking-[0.04em] text-muted">
+      panel from
+      <a href="/projects/bikeshare-forecast" class="u-link text-accent">Divvy forecasting ↗</a>
+    </span>
+  </Fragment>
+
+  <Fragment slot="problem">
+    <p>
+      Cities justify protected bike lanes with before-and-after counts on the corridor
+      itself. That comparison cannot separate the lane from everything else that changed
+      that season — weather, a new station, a citywide ridership trend — so the number it
+      produces is not an effect, it is a coincidence with a date attached.
+    </p>
+    <p>
+      Divvy publishes station-level trips monthly, and Chicago publishes when each bikeway
+      was completed. Together they allow a staggered-adoption design: stations near a newly
+      protected corridor become treated at different times, and stations that never got one
+      supply the counterfactual.
+    </p>
+    <p class="text-muted">
+      The second problem is harder than the statistics, and it is the one this project is
+      actually built around. Whoever runs the analysis chooses the radius, the control
+      pool, the estimator and the robustness checks — and can choose them after seeing
+      which combination gives the cleanest story. So the design, the thresholds, the
+      estimator roles and the change-control rules were written down and locked before any
+      treatment effect was read, and the repository records what was allowed to be claimed
+      afterwards.
+    </p>
+  </Fragment>
+
+  <Fragment slot="diagram"><CausalDiagram /></Fragment>
+  <Fragment slot="diagram-caption">
+    Fig. 02 — A locked corridor inventory and the Divvy station panel become a matched
+    station-month panel; each phase must clear its gate before the next one runs, and the
+    final claim is checked against a machine-readable contract.
+  </Fragment>
+
+  <Fragment slot="evaluation">
+    <div class="max-w-[60ch]">
+      <span class="font-mono text-[11px] tracking-[0.08em] uppercase text-muted">Measured</span>
+      <p class="mt-4 text-ink">
+        The change in monthly trip starts at stations within 300 m of a newly protected
+        corridor, relative to matched stations that never received one. Reported as a
+        percentage of the estimated treated counterfactual mean, with member and casual
+        trips split out as a secondary outcome.
+      </p>
+      <span class="mt-8 block font-mono text-[11px] tracking-[0.08em] uppercase text-muted">
+        Eval design
+      </span>
+      <p class="mt-4 text-muted">
+        12 corridors, 40 treated stations, and 120 cohort-local control assignments drawn
+        from 83 unique control stations — three per treated station, matched without
+        replacement on pre-treatment level, slope, variability and member share only. No
+        post-treatment outcome enters matching. The panel runs July 2023 to June 2026 with a
+        complete 12-month pre and post period for every station-cohort. Uncertainty is
+        two-way clustered by treated corridor and reused control station, with t critical
+        values on 11 corridor degrees of freedom rather than station counts.
+      </p>
+      <p class="mt-4 text-muted">
+        Five estimators were registered in advance with fixed roles. Two are transparency
+        baselines that were never eligible to be the headline; one is the primary; one is a
+        conditional magnitude check; one is a required specific-date sensitivity. The
+        selection rule was written before the estimates existed.
+      </p>
+    </div>
+
+    <div class="mt-12 grid max-w-[720px] grid-cols-1 gap-6 sm:grid-cols-3 sm:gap-4">
+      <div>
+        <div class="font-mono text-[30px] leading-none font-medium text-ink">−10.8%</div>
+        <div class="mt-2 font-mono text-[11px] tracking-[0.06em] uppercase text-muted">
+          Primary ATT · 95% CI −24.0 to +2.3
+        </div>
+      </div>
+      <div>
+        <div class="font-mono text-[30px] leading-none font-medium text-ink">16</div>
+        <div class="mt-2 font-mono text-[11px] tracking-[0.06em] uppercase text-muted">
+          Pre-locked robustness specs
+        </div>
+      </div>
+      <div>
+        <div class="font-mono text-[30px] leading-none font-medium text-ink">0.235</div>
+        <div class="mt-2 font-mono text-[11px] tracking-[0.06em] uppercase text-muted">
+          Geography placebo tail · locked at 0.10
+        </div>
+      </div>
+    </div>
+
+    <figure class="mt-12 m-0 max-w-[860px]">
+      <Image
+        src={studyDesign}
+        alt="Map of Chicago showing the 12 treated bike-lane corridors, the 40 treated Divvy stations within 300 m, and the matched control stations."
+        widths={[640, 860]}
+        sizes="(min-width: 900px) 860px, 100vw"
+        class="h-auto w-full rounded-xl border border-grid"
+        loading="lazy"
+      />
+      <figcaption class="mt-3 max-w-[80ch] font-mono text-[13px] tracking-[0.05em] text-muted">
+        Fig. 03a — Study design: treated corridors, the stations inside the 300 m buffer, and
+        the matched controls that supply the counterfactual.
+      </figcaption>
+    </figure>
+
+    <div class="mt-12 max-w-[860px] overflow-x-auto">
+      <table class="w-full min-w-[620px] border-collapse text-left">
+        <caption class="caption mb-4 text-left text-muted">
+          Pre-registered estimator registry
+        </caption>
+        <thead>
+          <tr class="border-b border-grid">
+            <th
+              class="py-3 pr-4 font-mono text-[11px] font-medium tracking-[0.06em] uppercase text-muted"
+            >
+              Estimator
+            </th>
+            <th
+              class="py-3 pr-4 font-mono text-[11px] font-medium tracking-[0.06em] uppercase text-muted"
+            >
+              Role
+            </th>
+            <th
+              class="py-3 pr-4 font-mono text-[11px] font-medium tracking-[0.06em] uppercase text-muted"
+            >
+              Effect
+            </th>
+            <th
+              class="py-3 font-mono text-[11px] font-medium tracking-[0.06em] uppercase text-muted"
+            >
+              95% interval
+            </th>
+          </tr>
+        </thead>
+        <tbody class="font-mono text-[13px] text-ink">
+          <tr class="border-b border-grid">
+            <td class="py-3 pr-4 text-accent">group-time ATT</td>
+            <td class="py-3 pr-4 text-muted">primary</td>
+            <td class="py-3 pr-4">−10.8%</td>
+            <td class="py-3">[−24.0%, 2.3%]</td>
+          </tr>
+          <tr class="border-b border-grid">
+            <td class="py-3 pr-4">cohort-stacked PPML</td>
+            <td class="py-3 pr-4 text-muted">conditional magnitude</td>
+            <td class="py-3 pr-4 text-muted">−4.8%</td>
+            <td class="py-3 text-muted">[−18.6%, 11.2%]</td>
+          </tr>
+          <tr class="border-b border-grid">
+            <td class="py-3 pr-4">group-time ATT · specific dates</td>
+            <td class="py-3 pr-4 text-muted">required sensitivity</td>
+            <td class="py-3 pr-4 text-muted">−11.0%</td>
+            <td class="py-3 text-muted">[−34.7%, 12.7%]</td>
+          </tr>
+          <tr class="border-b border-grid">
+            <td class="py-3 pr-4">pooled PPML TWFE</td>
+            <td class="py-3 pr-4 text-muted">transparency only</td>
+            <td class="py-3 pr-4 text-muted">−4.3%</td>
+            <td class="py-3 text-muted">[−10.4%, 2.2%]</td>
+          </tr>
+          <tr class="border-b border-grid">
+            <td class="py-3 pr-4">TWFE OLS log1p</td>
+            <td class="py-3 pr-4 text-muted">transparency only</td>
+            <td class="py-3 pr-4 text-muted">−1.6%</td>
+            <td class="py-3 text-muted">[−8.9%, 6.2%]</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="mt-8 max-w-[60ch]">
+      <p class="text-muted">
+        PPML was not promoted despite being the more favourable-looking magnitude. Cohort
+        effects are severely heterogeneous — a 61.8 percentage-point range — and two cohorts
+        contain a single treated corridor, which makes few-cluster inference unreliable and
+        made PPML ineligible under the locked rule. The two samples reconcile and their
+        intervals overlap, so the choice was not a judgement call about which number to
+        prefer.
+      </p>
+    </div>
+
+    <figure class="mt-12 m-0 max-w-[860px]">
+      <Image
+        src={eventStudy}
+        alt="Event-study plot of the matched group-time ATT by month relative to corridor completion, with 95% confidence bands spanning zero after treatment."
+        widths={[640, 860]}
+        sizes="(min-width: 900px) 860px, 100vw"
+        class="h-auto w-full rounded-xl border border-grid"
+        loading="lazy"
+      />
+      <figcaption class="mt-3 max-w-[80ch] font-mono text-[13px] tracking-[0.05em] text-muted">
+        Fig. 03b — Event study. The post-treatment path sits below zero but its bands include
+        it throughout; the pre-treatment leads are the reason the interpretation stays
+        narrow.
+      </figcaption>
+    </figure>
+
+    <div class="mt-12 max-w-[860px] overflow-x-auto">
+      <table class="w-full min-w-[620px] border-collapse text-left">
+        <caption class="caption mb-4 text-left text-muted">
+          Robustness and falsification — 16 specifications
+        </caption>
+        <thead>
+          <tr class="border-b border-grid">
+            <th
+              class="py-3 pr-4 font-mono text-[11px] font-medium tracking-[0.06em] uppercase text-muted"
+            >
+              Check
+            </th>
+            <th
+              class="py-3 pr-4 font-mono text-[11px] font-medium tracking-[0.06em] uppercase text-muted"
+            >
+              Result
+            </th>
+            <th
+              class="py-3 font-mono text-[11px] font-medium tracking-[0.06em] uppercase text-muted"
+            >
+              Reading
+            </th>
+          </tr>
+        </thead>
+        <tbody class="font-mono text-[13px] text-ink">
+          <tr class="border-b border-grid">
+            <td class="py-3 pr-4">Treated / donut radii</td>
+            <td class="py-3 pr-4">−10.7% to −12.1%</td>
+            <td class="py-3 text-muted">stable</td>
+          </tr>
+          <tr class="border-b border-grid">
+            <td class="py-3 pr-4">Drop first 1–2 post months</td>
+            <td class="py-3 pr-4">−11.2%, −12.1%</td>
+            <td class="py-3 text-muted">stable</td>
+          </tr>
+          <tr class="border-b border-grid">
+            <td class="py-3 pr-4">New protected lanes only</td>
+            <td class="py-3 pr-4">−8.6% [−25.6%, 8.4%]</td>
+            <td class="py-3 text-muted">stable, less precise</td>
+          </tr>
+          <tr class="border-b border-grid">
+            <td class="py-3 pr-4">Member / casual outcomes</td>
+            <td class="py-3 pr-4">−12.7% / −6.9%</td>
+            <td class="py-3 text-muted">stable</td>
+          </tr>
+          <tr class="border-b border-grid">
+            <td class="py-3 pr-4">Leave one corridor out</td>
+            <td class="py-3 pr-4">−15.0% to −5.8%</td>
+            <td class="py-3 text-muted">one influential corridor</td>
+          </tr>
+          <tr class="border-b border-grid">
+            <td class="py-3 pr-4">Conservative dates ±1 month</td>
+            <td class="py-3 pr-4">−14.5% to −8.6%</td>
+            <td class="py-3 text-point">−1 month moves the CI off zero</td>
+          </tr>
+          <tr class="border-b border-grid">
+            <td class="py-3 pr-4">Timing placebo, 6 months early</td>
+            <td class="py-3 pr-4">+2.4% [−5.1%, 10.0%]</td>
+            <td class="py-3 text-muted">clears — no spurious effect</td>
+          </tr>
+          <tr class="border-b border-grid">
+            <td class="py-3 pr-4">50 matched geography placebos</td>
+            <td class="py-3 pr-4">median +3.2%, tail p = 0.235</td>
+            <td class="py-3 text-point">fails the locked 0.10 criterion</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <figure class="mt-12 m-0 max-w-[860px]">
+      <Image
+        src={geographyPlacebo}
+        alt="Distribution of 50 matched geography-placebo estimates with the real estimate marked on the negative side of the distribution but inside its tail."
+        widths={[640, 860]}
+        sizes="(min-width: 900px) 860px, 100vw"
+        class="h-auto w-full rounded-xl border border-grid"
+        loading="lazy"
+      />
+      <figcaption class="mt-3 max-w-[80ch] font-mono text-[13px] tracking-[0.05em] text-muted">
+        Fig. 03c — 50 fixed-seed placebo corridors drawn from streets with no protected
+        segment. The real estimate sits outside the central 90% interval, but not far enough
+        into the tail to clear the criterion set in advance.
+      </figcaption>
+    </figure>
+
+    <div class="mt-12 max-w-[60ch]">
+      <span class="font-mono text-[11px] tracking-[0.08em] uppercase text-muted">
+        What failed → what was kept
+      </span>
+      <p class="mt-4 text-muted">
+        Two checks did not clear, and both survive into the conclusion rather than being
+        tuned away. The four-bin pre-treatment placebo-lead test rejects exact zero,
+        <span class="font-mono text-[13px] text-ink">F(4,11) = 4.41, p = 0.023</span> — so
+        parallel trends cannot be assumed, though the largest single lead, −16.3%, stays
+        under the 20% automatic-failure threshold that was fixed in advance. And the
+        geography placebo returns an empirical two-sided tail probability of 0.235 against a
+        locked threshold of 0.10, which means an estimate this large is reachable by drawing
+        a random unprotected street.
+      </p>
+      <p class="mt-4 text-muted">
+        Either failure alone is enough to block a clean causal claim, so Phase 5 exits as
+        <span class="font-mono text-[13px] text-ink">PASS WITH LIMITATIONS</span> instead of
+        being re-specified until it passes. The fix that would actually help is better
+        treatment-date provenance, not a different estimator.
+      </p>
+    </div>
+
+    <div class="mt-12 max-w-[60ch] border-l border-accent pl-6">
+      <span class="font-mono text-[11px] tracking-[0.08em] uppercase text-muted">
+        Claims contract
+      </span>
+      <p class="mt-4 text-ink">
+        The release records one sentence as the only conclusion the evidence supports, and a
+        test fails if the write-up drifts from it:
+      </p>
+      <p class="mt-4 font-mono text-[13px] leading-[1.7] text-muted">
+        "The analysis does not establish an increase in nearby monthly Divvy trip starts;
+        identification and geography-placebo limitations preclude a clean causal claim."
+      </p>
+      <p class="mt-4 text-muted">
+        It also does not support the opposite reading. A negative point estimate with an
+        interval crossing zero, a pre-trend warning and a soft placebo tail is not evidence
+        that lanes reduced ridership — and the contract exists so that a tidier version of
+        this project cannot be told later.
+      </p>
+    </div>
+  </Fragment>
+</ProjectLayout>

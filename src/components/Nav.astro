@@ -5,19 +5,21 @@
 ---
 
 <nav id="site-nav" class="sticky top-0 z-50 h-16 bg-paper" aria-label="Main">
-  <div class="container-site flex h-full items-center justify-between gap-4">
+  <div class="container-site flex h-full items-center justify-between gap-2 sm:gap-4">
     <a href="/" class="u-link font-mono text-[13px] font-medium tracking-[0.04em] text-ink"
       >quoc_nguyen<span class="text-muted">.py</span></a
     >
+    <!-- The point dot is absolutely positioned above its label: at 390px the row
+         needs every pixel, and three inline dots cost 30px of layout width. -->
     <div class="flex items-center gap-2 sm:gap-6">
-      <a href="/#projects" data-nav="projects" class="caption u-link inline-flex min-h-11 items-center gap-1 text-ink"
-        >Projects<span class="nav-dot h-1.5 w-1.5 rounded-full bg-point" aria-hidden="true"></span></a
+      <a href="/#projects" data-nav="projects" class="caption u-link relative inline-flex min-h-11 items-center text-ink"
+        >Projects<span class="nav-dot absolute top-1.5 left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-point" aria-hidden="true"></span></a
       >
-      <a href="/#about" data-nav="about" class="caption u-link inline-flex min-h-11 items-center gap-1 text-ink"
-        >About<span class="nav-dot h-1.5 w-1.5 rounded-full bg-point" aria-hidden="true"></span></a
+      <a href="/#about" data-nav="about" class="caption u-link relative inline-flex min-h-11 items-center text-ink"
+        >About<span class="nav-dot absolute top-1.5 left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-point" aria-hidden="true"></span></a
       >
-      <a href="/#contact" data-nav="contact" class="caption u-link inline-flex min-h-11 items-center gap-1 text-ink"
-        >Contact<span class="nav-dot h-1.5 w-1.5 rounded-full bg-point" aria-hidden="true"></span></a
+      <a href="/#contact" data-nav="contact" class="caption u-link relative inline-flex min-h-11 items-center text-ink"
+        >Contact<span class="nav-dot absolute top-1.5 left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-point" aria-hidden="true"></span></a
       >
     </div>
   </div>

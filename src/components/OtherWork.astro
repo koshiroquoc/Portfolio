@@ -1,0 +1,48 @@
+---
+// "Table 1 — Other work": the supplementary table of a stats paper. Secondary
+// team projects listed with the role actually held, no metrics and no detail
+// page, so nothing here has to carry numbers that aren't mine to claim.
+interface Row {
+  name: string;
+  what: string;
+  role: string;
+  when: string;
+  href: string;
+}
+interface Props {
+  rows: Row[];
+}
+const { rows } = Astro.props;
+---
+
+<div class="mt-12">
+  <div class="mb-2 flex items-baseline justify-between border-b border-grid pb-3">
+    <span class="caption text-muted">Table 1</span>
+    <span class="caption text-ink">Other work</span>
+  </div>
+  <ul>
+    {
+      rows.map((r) => (
+        <li class="border-b border-grid last:border-0">
+          <a
+            href={r.href}
+            target="_blank"
+            rel="noreferrer"
+            class="u-link grid grid-cols-1 items-baseline gap-1 py-4 md:grid-cols-[168px_1fr_212px_88px] md:gap-4"
+          >
+            <span class="font-mono text-[13px] tracking-[0.04em] text-ink uppercase">{r.name}</span>
+            <span class="text-base text-muted">{r.what}</span>
+            <span class="font-mono text-[11px] tracking-[0.06em] text-muted uppercase">
+              {r.role}
+            </span>
+            <span
+              class="font-mono text-[11px] tracking-[0.06em] text-muted uppercase md:text-right"
+            >
+              {r.when} ↗
+            </span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</div>

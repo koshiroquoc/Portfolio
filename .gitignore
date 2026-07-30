@@ -12,6 +12,7 @@ node_modules/
 # macOS
 .DS_Store
 
-# QA screenshots
+# QA screenshots — but never the real image assets the build imports
 *.png
 !public/*.png
+!src/assets/**/*.png

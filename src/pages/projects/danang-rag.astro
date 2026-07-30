@@ -1,0 +1,303 @@
+---
+import ProjectLayout from '../../layouts/ProjectLayout.astro';
+import RagDiagram from '../../components/diagrams/RagDiagram.astro';
+---
+
+<ProjectLayout
+  title="Da Nang RAG assistant"
+  summary="A grounded local-guide assistant over provenance-backed OpenStreetMap places, with a retrieval benchmark that decides which search strategy ships — including the one that won the table and was rejected anyway."
+  metaDescription="Da Nang RAG assistant by Quoc Nguyen: hybrid BM25 + vector retrieval with RRF, a validated Gemini self-query planner, and a fingerprinted evaluation suite with paired bootstrap intervals."
+  stack={[
+    'Python',
+    'Elasticsearch',
+    'sentence-transformers',
+    'Gemini',
+    'Streamlit',
+    'Docker',
+    'Pytest',
+    'GitHub Actions',
+    'Grafana',
+  ]}
+  nextSteps={[
+    'Rerun the generation evaluation under the production-aligned protocol. The current percentages come from a run that predates the query planner and the fixed candidate depth, so they describe an earlier system and are labelled that way below.',
+    'Add geo enrichment for canonical district labels. Fail-open district filtering cannot show its recall benefit while area coverage stays sparse, so that part of the planner is unmeasured rather than proven.',
+    'Human spot-check a sample of judge verdicts. Every generation number on this page is one model grading another, and nothing yet establishes that the judge agrees with a person.',
+  ]}
+  draft={false}
+>
+  <Fragment slot="links">
+    <a
+      href="https://github.com/koshiroquoc/DaNangtourguide"
+      class="u-link font-mono text-[13px] tracking-[0.04em] text-accent"
+      target="_blank"
+      rel="noreferrer"
+    >
+      repo ↗
+    </a>
+    <span class="font-mono text-[13px] tracking-[0.04em] text-muted">
+      docker compose up · 95 tests in CI
+    </span>
+  </Fragment>
+
+  <Fragment slot="problem">
+    <p>
+      Ask a general model where to eat in a specific Da Nang district and it will answer
+      confidently with places that may not exist, at addresses it composed. Ask a listing
+      site and you get a ranked page you have to read yourself. A retrieval-grounded
+      assistant sits between those: it answers in sentences, but every claim has to come
+      from a record.
+    </p>
+    <p>
+      That only works if two things are true, and neither is true by default. The records
+      have to be real — the first version of this project indexed a 299-row generated CSV
+      and presented it as verified local data, which is the same failure mode as the model
+      inventing addresses, just moved upstream. And the retrieval has to actually be better
+      than the simple thing.
+    </p>
+    <p class="text-muted">
+      "We added hybrid search" is not a result. Without a benchmark on this dataset, there
+      is no way to know whether combining keyword and vector search beats plain BM25 here,
+      whether the LLM query planner helps or quietly drops constraints, or whether a tuned
+      weighting is a real gain or noise someone decided to believe.
+    </p>
+  </Fragment>
+
+  <Fragment slot="diagram"><RagDiagram /></Fragment>
+  <Fragment slot="diagram-caption">
+    Fig. 02 — An OpenStreetMap base with a fill-null-only Wikivoyage overlay is indexed with
+    per-field provenance; queries pass through a validated planner into hybrid retrieval, and
+    the benchmarks are pinned to the dataset fingerprint they were run against.
+  </Fragment>
+
+  <Fragment slot="evaluation">
+    <div class="max-w-[60ch]">
+      <span class="font-mono text-[11px] tracking-[0.08em] uppercase text-muted">Measured</span>
+      <p class="mt-4 text-ink">
+        Retrieval quality on two tracks that fail differently — discovery queries that name
+        no venue ("somewhere for bún bò in Hải Châu") and name-lookup queries that do.
+        Then the planner: whether Gemini's extracted filters match the intended ones. Then
+        generation: whether the answer is faithful to the retrieved sources and actually
+        answers the question.
+      </p>
+      <span class="mt-8 block font-mono text-[11px] tracking-[0.08em] uppercase text-muted">
+        Eval design
+      </span>
+      <p class="mt-4 text-muted">
+        120 discovery and 90 name-lookup queries, six retrieval variants, candidate depth
+        fixed at 20, embeddings from
+        <span class="font-mono text-[13px]">all-MiniLM-L6-v2</span>. Every run is bound to
+        the SHA-256 fingerprint of the dataset it was executed against, so a result cannot
+        silently belong to a different snapshot. Variant comparisons use paired bootstrap
+        over 5,000 resamples and are reported as intervals, not as which number is bigger.
+        The planner is scored against an oracle condition that executes the intended filters
+        perfectly, which separates "the planner is wrong" from "filtering does not help".
+      </p>
+    </div>
+
+    <div class="mt-12 grid max-w-[720px] grid-cols-1 gap-6 sm:grid-cols-3 sm:gap-4">
+      <div>
+        <div class="font-mono text-[30px] leading-none font-medium text-ink">0.957</div>
+        <div class="mt-2 font-mono text-[11px] tracking-[0.06em] uppercase text-muted">
+          MRR@5 · validated self-query
+        </div>
+      </div>
+      <div>
+        <div class="font-mono text-[30px] leading-none font-medium text-ink">97.5%</div>
+        <div class="mt-2 font-mono text-[11px] tracking-[0.06em] uppercase text-muted">
+          Planner exact-filter match
+        </div>
+      </div>
+      <div>
+        <div class="font-mono text-[30px] leading-none font-medium text-ink">210</div>
+        <div class="mt-2 font-mono text-[11px] tracking-[0.06em] uppercase text-muted">
+          Benchmarked retrieval queries
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-12 max-w-[860px] overflow-x-auto">
+      <table class="w-full min-w-[620px] border-collapse text-left">
+        <caption class="caption mb-4 text-left text-muted">
+          Discovery track · 120 queries
+        </caption>
+        <thead>
+          <tr class="border-b border-grid">
+            <th
+              class="py-3 pr-4 font-mono text-[11px] font-medium tracking-[0.06em] uppercase text-muted"
+            >
+              Variant
+            </th>
+            <th
+              class="py-3 pr-4 font-mono text-[11px] font-medium tracking-[0.06em] uppercase text-muted"
+            >
+              Hit@1
+            </th>
+            <th
+              class="py-3 pr-4 font-mono text-[11px] font-medium tracking-[0.06em] uppercase text-muted"
+            >
+              MRR@5
+            </th>
+            <th
+              class="py-3 font-mono text-[11px] font-medium tracking-[0.06em] uppercase text-muted"
+            >
+              nDCG@3
+            </th>
+          </tr>
+        </thead>
+        <tbody class="font-mono text-[13px] text-ink">
+          <tr class="border-b border-grid">
+            <td class="py-3 pr-4">BM25</td>
+            <td class="py-3 pr-4 text-muted">0.292</td>
+            <td class="py-3 pr-4 text-muted">0.425</td>
+            <td class="py-3 text-muted">0.294</td>
+          </tr>
+          <tr class="border-b border-grid">
+            <td class="py-3 pr-4">Vector</td>
+            <td class="py-3 pr-4 text-muted">0.583</td>
+            <td class="py-3 pr-4 text-muted">0.670</td>
+            <td class="py-3 text-muted">0.562</td>
+          </tr>
+          <tr class="border-b border-grid">
+            <td class="py-3 pr-4 text-accent">Hybrid RRF — shipped</td>
+            <td class="py-3 pr-4">0.608</td>
+            <td class="py-3 pr-4">0.693</td>
+            <td class="py-3">0.547</td>
+          </tr>
+          <tr class="border-b border-grid">
+            <td class="py-3 pr-4">Weighted RRF, semantic 0.7</td>
+            <td class="py-3 pr-4 text-muted">0.592</td>
+            <td class="py-3 pr-4 text-muted">0.697</td>
+            <td class="py-3 text-muted">0.590</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="mt-8 max-w-[60ch] border-l border-accent pl-6">
+      <span class="font-mono text-[11px] tracking-[0.08em] uppercase text-muted">
+        The decision that mattered
+      </span>
+      <p class="mt-4 text-ink">
+        Weighted RRF at semantic 0.7 has the best MRR@5 in that table. It is not what ships.
+      </p>
+      <p class="mt-4 text-muted">
+        Against BM25, hybrid RRF gains
+        <span class="font-mono text-[13px] text-ink">+0.269</span> MRR@5 with a 95% interval
+        of <span class="font-mono text-[13px] text-ink">[+0.200, +0.339]</span> — robust.
+        Against plain RRF, the tuned variant gains
+        <span class="font-mono text-[13px] text-ink">+0.004</span> with an interval of
+        <span class="font-mono text-[13px] text-ink">[−0.026, +0.028]</span>, which crosses
+        zero. So the improvement is indistinguishable from resampling noise, and shipping it
+        would mean carrying a tuned parameter for nothing. The repository keeps the simpler
+        untuned strategy and records why.
+      </p>
+    </div>
+
+    <div class="mt-12 max-w-[860px] overflow-x-auto">
+      <table class="w-full min-w-[620px] border-collapse text-left">
+        <caption class="caption mb-4 text-left text-muted">
+          Self-query planner vs oracle filters · 120 queries
+        </caption>
+        <thead>
+          <tr class="border-b border-grid">
+            <th
+              class="py-3 pr-4 font-mono text-[11px] font-medium tracking-[0.06em] uppercase text-muted"
+            >
+              Condition
+            </th>
+            <th
+              class="py-3 pr-4 font-mono text-[11px] font-medium tracking-[0.06em] uppercase text-muted"
+            >
+              Hit@1
+            </th>
+            <th
+              class="py-3 pr-4 font-mono text-[11px] font-medium tracking-[0.06em] uppercase text-muted"
+            >
+              MRR@5
+            </th>
+            <th
+              class="py-3 font-mono text-[11px] font-medium tracking-[0.06em] uppercase text-muted"
+            >
+              Precision@3
+            </th>
+          </tr>
+        </thead>
+        <tbody class="font-mono text-[13px] text-ink">
+          <tr class="border-b border-grid">
+            <td class="py-3 pr-4">Baseline hybrid</td>
+            <td class="py-3 pr-4 text-muted">0.608</td>
+            <td class="py-3 pr-4 text-muted">0.693</td>
+            <td class="py-3 text-muted">0.500</td>
+          </tr>
+          <tr class="border-b border-grid">
+            <td class="py-3 pr-4 text-accent">Validated self-query</td>
+            <td class="py-3 pr-4">0.942</td>
+            <td class="py-3 pr-4">0.957</td>
+            <td class="py-3">0.831</td>
+          </tr>
+          <tr class="border-b border-grid">
+            <td class="py-3 pr-4">Oracle filters</td>
+            <td class="py-3 pr-4 text-muted">0.942</td>
+            <td class="py-3 pr-4 text-muted">0.954</td>
+            <td class="py-3 text-muted">0.836</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="mt-8 max-w-[60ch]">
+      <p class="text-muted">
+        The planner lands on top of the oracle —
+        <span class="font-mono text-[13px] text-ink">0.957</span> against
+        <span class="font-mono text-[13px] text-ink">0.954</span> — so on this benchmark
+        almost none of the remaining error is the LLM misreading the query. Paired against
+        baseline it gains <span class="font-mono text-[13px] text-ink">+0.264</span> MRR@5,
+        interval <span class="font-mono text-[13px] text-ink">[+0.196, +0.334]</span>. It was
+        enabled by default because a gate written beforehand said it could be: complete run,
+        exact-match ≥ 90%, and a paired interval strictly above zero.
+      </p>
+    </div>
+
+    <div class="mt-12 max-w-[60ch]">
+      <span class="font-mono text-[11px] tracking-[0.08em] uppercase text-muted">
+        Generation — historical baseline, not a current claim
+      </span>
+      <p class="mt-4 text-muted">
+        A 150-query sample was answered and graded by a separate Gemini judge on
+        faithfulness and answer relevance:
+        <span class="font-mono text-[13px] text-ink">96.7%</span> and
+        <span class="font-mono text-[13px] text-ink">98.0%</span> PASS,
+        <span class="font-mono text-[13px] text-ink">94.7%</span> jointly, zero FAIL and zero
+        runtime failures.
+      </p>
+      <p class="mt-4 text-muted">
+        Those numbers describe an earlier build. The run predates the production query
+        planner and the fixed candidate depth, so it is retained in the repository as a
+        labelled historical baseline and flagged for rerun rather than quoted as the current
+        system's score. They are also LLM-judge verdicts, not human ground truth. Both
+        caveats are recorded at the top of the report itself.
+      </p>
+    </div>
+
+    <div class="mt-12 max-w-[60ch]">
+      <span class="font-mono text-[11px] tracking-[0.08em] uppercase text-muted">
+        What failed → what was fixed
+      </span>
+      <p class="mt-4 text-muted">
+        Every non-PASS case is kept in the report with the judge's reasoning. The pattern was
+        not hallucinated venues — it was unsupported scope. Asked for burger places, the
+        model answered "Here are some places you can go for burgers in Da Nang", where the
+        retrieved records carried no city field at all. Correct venues, invented location
+        claim. Faithfulness scoring counts source attribution, so that framing sentence is
+        what dropped the verdict.
+      </p>
+      <p class="mt-4 text-muted">
+        Upstream, the generated 299-row CSV was demoted to a clearly-labelled legacy
+        baseline and replaced with a reproducible Overpass snapshot plus a Wikivoyage overlay
+        that may only fill nulls, never overwrite. Each accepted field stores its own source
+        revision, license, timestamp and match score, and missing facts such as prices stay
+        null instead of being generated.
+      </p>
+    </div>
+  </Fragment>
+</ProjectLayout>
