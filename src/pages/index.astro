@@ -32,26 +32,33 @@ const otherWork = [
 
 const toolkit = [
   { group: 'Languages', tags: ['Python', 'R', 'SQL', 'C++'] },
-  { group: 'ML & Evals', tags: ['PyTorch', 'scikit-learn', 'RAG→Agents', 'eval harnesses'] },
-  { group: 'Data & Infra', tags: ['Airflow/Dagster', 'dbt', 'Docker', 'Git', 'CI'] },
+  {
+    group: 'Inference & Modeling',
+    tags: [
+      'statsmodels',
+      'SciPy',
+      'DiD / group-time ATT',
+      'bootstrap CIs',
+      'scikit-learn',
+      'LightGBM',
+    ],
+  },
+  {
+    group: 'Data & Evals',
+    tags: ['pandas', 'Polars', 'GeoPandas', 'Elasticsearch', 'eval harnesses', 'Docker', 'CI'],
+  },
 ];
 
-// TODO: replace sample EXIF captions with the real data from the 4 photos
-const offClock = [
-  { caption: 'f/2.8 · 1/250s · ISO 400', placeholder: 'photo 1' },
-  { caption: 'f/1.8 · 1/60s · ISO 1600', placeholder: 'photo 2' },
-  { caption: 'f/8 · 1/500s · ISO 100', placeholder: 'photo 3' },
-  { caption: 'f/4 · 1/125s · ISO 800', placeholder: 'photo 4' },
-];
 ---
 
 <Base
-  title="Quoc Nguyen — ML Systems"
-  description="Quoc Nguyen — Data Science / Math student building and evaluating ML systems. Open to MLE/SWE roles, Fall 2026."
+  title="Quoc Nguyen — Data Science"
+  description="Quoc Nguyen — Data Science / Math student working on causal inference and evaluation: designs locked before results are read. Open to product / experimentation Data Science roles, Fall 2026."
 >
   <Nav />
 
-  <header id="top" class="relative flex items-center" style="height: calc(100svh - 64px)">
+  <main id="main-content" tabindex="-1">
+    <header id="top" class="relative flex items-center" style="height: calc(100svh - 64px)">
     <div class="absolute inset-y-0 left-0 w-px bg-grid" aria-hidden="true"></div>
     <div class="ticks-left absolute inset-y-0 left-0 w-[7px]" aria-hidden="true"></div>
     <div class="absolute inset-x-0 bottom-0 h-px bg-grid" aria-hidden="true"></div>
@@ -64,30 +71,31 @@ const offClock = [
         class="anim font-display max-w-[15ch] text-[clamp(40px,6.5vw,96px)] leading-[1.05] font-semibold tracking-[-0.02em]"
         style="--d: 60ms"
       >
-        I build ML systems and <span class="text-accent">measure</span> whether they actually work.
+        I design experiments and <span class="text-accent">measure</span> what changes product
+        decisions.
       </h1>
       <p
         class="anim mt-8 max-w-[80ch] font-mono text-[13px] tracking-[0.06em] text-muted"
         style="--d: 120ms"
       >
-        // <span class="text-ink">TODO: location</span> · Open to MLE / SWE roles — Fall 2026
+        // <span class="text-ink">Madison, WI</span> · Open to product / experimentation Data
+        Science roles — Fall 2026
       </p>
       <div class="anim mt-12 flex gap-12" style="--d: 180ms">
-        <!-- TODO: confirm the three hero numbers are real and interview-defensible -->
         <div>
           <div class="font-mono text-[clamp(28px,3.2vw,44px)] leading-none font-medium text-ink">
-            6+
+            3
           </div>
           <div class="mt-2 font-mono text-[11px] tracking-[0.06em] uppercase text-muted">
-            Shipped projects
+            Studies with published evals
           </div>
         </div>
         <div>
           <div class="font-mono text-[clamp(28px,3.2vw,44px)] leading-none font-medium text-ink">
-            2
+            174
           </div>
           <div class="mt-2 font-mono text-[11px] tracking-[0.06em] uppercase text-muted">
-            In production
+            Automated tests behind the claims
           </div>
         </div>
         <div>
@@ -100,9 +108,9 @@ const offClock = [
         </div>
       </div>
     </div>
-  </header>
+    </header>
 
-  <section id="projects" class="flex min-h-[75vh] flex-col justify-center py-16 md:py-30">
+    <section id="projects" class="flex min-h-[75vh] flex-col justify-center py-16 md:py-30">
     <h2 class="sr-only">Projects</h2>
     <FigRule fig="Fig. 01" label="Projects" />
     <div class="container-site">
@@ -136,7 +144,7 @@ const offClock = [
         <ProjectCard
           href="/projects/bikeshare-forecast"
           title="Divvy demand forecasting"
-          description="A leakage-safe ML system that forecasts station-hour bike demand 24 hours ahead — and the upstream panel the causal study reads from."
+          description="A leakage-safe forecasting system for station-hour bike demand 24 hours ahead — and the upstream panel the causal study reads from."
           metrics={[
             { value: '24.6%', label: 'MAE reduction' },
             { value: '200', label: 'Stations' },
@@ -149,9 +157,9 @@ const offClock = [
       </div>
       <OtherWork rows={otherWork} />
     </div>
-  </section>
+    </section>
 
-  <section id="toolkit" class="flex min-h-[75vh] flex-col justify-center py-16 md:py-30">
+    <section id="toolkit" class="flex min-h-[75vh] flex-col justify-center py-16 md:py-30">
     <h2 class="sr-only">Toolkit</h2>
     <FigRule fig="Fig. 02" label="Toolkit" />
     <div class="container-site">
@@ -174,23 +182,24 @@ const offClock = [
         }
       </div>
     </div>
-  </section>
+    </section>
 
-  <section id="about" class="flex min-h-[75vh] flex-col justify-center py-16 md:py-30">
+    <section id="about" class="flex min-h-[75vh] flex-col justify-center py-16 md:py-30">
     <h2 class="sr-only">About</h2>
     <FigRule fig="Fig. 03" label="About" />
     <div class="container-site">
       <div class="grid grid-cols-1 items-start gap-12 md:grid-cols-[1.4fr_1fr]">
         <div>
           <p class="max-w-[52ch] text-ink">
-            Hi, I'm Quoc Nguyen — a Data Science and Math student who cares less about model demos
-            and more about whether a system holds up in production.
+            Hi, I'm Quoc Nguyen — a Data Science and Math student in Madison, Wisconsin. I care
+            less about how a model scores in isolation than whether its result can be trusted when
+            someone makes a product decision.
           </p>
           <p class="mt-4 max-w-[52ch] text-muted">
-            I build ML systems end to end — retrieval, agents, and the data pipelines that feed
-            them — and put as much work into the eval harness as into the model. I'm looking for
-            MLE / SWE-with-data roles starting Fall 2026 where measuring what actually works is
-            part of the job.
+            My work pairs causal designs for questions where before-and-after comparisons would
+            lie with evaluation harnesses for systems whose output is text. I lock the design and
+            thresholds before reading results, publish the checks that fail, and I'm looking for
+            product / experimentation Data Science roles starting Fall 2026.
           </p>
         </div>
         <figure class="m-0">
@@ -206,40 +215,17 @@ const offClock = [
             />
           </div>
           <figcaption class="mt-3 font-mono text-[13px] tracking-[0.05em] text-muted">
-            Self-portrait · shot on TODO: camera
+            Self-portrait · shot on a Nikon D7100
           </figcaption>
         </figure>
       </div>
     </div>
-  </section>
+    </section>
 
-  <section id="offclock" class="flex min-h-[75vh] flex-col justify-center py-16 md:py-30">
-    <h2 class="sr-only">Off the clock</h2>
-    <FigRule fig="Fig. 04" label="Off the clock" />
-    <div class="border-y border-grid bg-band py-12">
-      <div class="container-site">
-        <div class="grid grid-cols-2 gap-6 md:grid-cols-4">
-          {
-            offClock.map(({ caption, placeholder }) => (
-              <figure class="m-0">
-                {/* TODO: drop in the 4 real photos (blue duotone treatment) */}
-                <div class="flex aspect-square items-center justify-center overflow-hidden rounded-lg border border-dashed border-grid bg-paper">
-                  <span class="font-mono text-xs tracking-[0.04em] text-muted">{placeholder}</span>
-                </div>
-                <figcaption class="mt-3 font-mono text-[13px] tracking-[0.05em] text-muted">
-                  {caption}
-                </figcaption>
-              </figure>
-            ))
-          }
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="contact" class="flex min-h-[75vh] flex-col justify-center py-16 md:py-30">
+    {/* Off the clock is deferred until real photos and EXIF exist. See PRODUCT.md. */}
+    <section id="contact" class="flex min-h-[75vh] flex-col justify-center py-16 md:py-30">
     <h2 class="sr-only">Contact</h2>
-    <FigRule fig="Fig. 05" label="Contact" />
+    <FigRule fig="Fig. 04" label="Contact" />
     <div class="container-site">
       <div class="flex flex-col items-start gap-4">
         <a
@@ -252,16 +238,16 @@ const offClock = [
           class="u-link font-mono text-[clamp(18px,3vw,26px)] font-medium text-ink"
           ><span class="text-muted">github </span>github.com/koshiroquoc</a
         >
-        {/* TODO: confirm LinkedIn URL */}
         <a
-          href="#contact"
+          href="https://www.linkedin.com/in/quoc-nguyenvan/"
           class="u-link font-mono text-[clamp(18px,3vw,26px)] font-medium text-ink"
-          ><span class="text-muted">linkedin </span>TODO: linkedin.com/in/…</a
+          ><span class="text-muted">linkedin </span>linkedin.com/in/quoc-nguyenvan</a
         >
       </div>
       <p class="mt-16 font-mono text-[11px] tracking-[0.05em] text-muted">
         Fig. 01 — Quoc Nguyen · 2026 · built like a figure from a stats paper.
       </p>
     </div>
-  </section>
+    </section>
+  </main>
 </Base>

@@ -1,5 +1,5 @@
 ---
-// Project detail template — used by both project pages. Section order per
+// Project detail template — used by all project pages. Section order per
 // spec: header, problem, architecture, evaluation (the differentiator),
 // stack, next steps. Same tokens, 75vh rhythm, and caption style as Home.
 import Base from './Base.astro';
@@ -20,10 +20,13 @@ const { title, summary, metaDescription, stack, nextSteps, draft = true } = Astr
 <Base title={`${title} — Quoc Nguyen`} description={metaDescription}>
   <Nav />
 
+  <main id="main-content" tabindex="-1">
   <header class="flex min-h-[75vh] flex-col justify-center py-16 md:py-30">
     <div class="container-site">
       <p class="anim mb-6" style="--d: 0ms">
-        <a href="/#projects" class="caption u-link text-muted">← Fig. 01 — Projects</a>
+        <a href="/#projects" class="caption u-link inline-flex min-h-11 items-center text-muted">
+          ← Fig. 01 — Projects
+        </a>
       </p>
       <h1
         class="anim font-display max-w-[18ch] text-[clamp(32px,4.5vw,64px)] leading-[1.05] font-semibold tracking-[-0.02em]"
@@ -32,7 +35,7 @@ const { title, summary, metaDescription, stack, nextSteps, draft = true } = Astr
         {title}
       </h1>
       <p class="anim mt-6 max-w-[60ch] text-muted" style="--d: 120ms">{summary}</p>
-      <div class="anim mt-8 flex flex-wrap gap-6" style="--d: 180ms">
+      <div class="anim mt-8 flex flex-wrap items-center gap-x-6 gap-y-2" style="--d: 180ms">
         <slot name="links" />
       </div>
       {
@@ -63,7 +66,13 @@ const { title, summary, metaDescription, stack, nextSteps, draft = true } = Astr
     <FigRule fig="Fig. 02" label="Architecture" />
     <div class="container-site">
       <figure class="m-0">
-        <div class="overflow-x-auto rounded-xl border border-grid p-6 md:p-8">
+        <div
+          class="data-scroll overflow-x-auto rounded-xl border border-grid p-6 md:p-8"
+          tabindex="0"
+          role="region"
+          aria-label="Architecture diagram. Scroll horizontally to inspect the full figure."
+          data-scroll-label="Diagram · scroll horizontally →"
+        >
           <div class="diagram-frame min-w-[640px]">
             <slot name="diagram" />
           </div>
@@ -117,6 +126,7 @@ const { title, summary, metaDescription, stack, nextSteps, draft = true } = Astr
       </p>
     </div>
   </section>
+  </main>
 </Base>
 
 <style>

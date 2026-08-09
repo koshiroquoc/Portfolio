@@ -5,7 +5,7 @@ import BikeshareDiagram from '../../components/diagrams/BikeshareDiagram.astro';
 
 <ProjectLayout
   title="Divvy demand forecasting"
-  summary="An end-to-end ML system that forecasts demand for 200 Chicago bikeshare stations, 24 hours ahead—and measures whether the forecast stays trustworthy."
+  summary="A forecasting system for 200 Chicago bikeshare stations, 24 hours ahead — backtested on rolling origins, and measured for whether the forecast stays trustworthy once it is serving."
   metaDescription="Divvy demand forecasting by Quoc Nguyen: leakage-safe LightGBM backtesting, batch serving, monitoring, Docker, and CI."
   stack={[
     'Python',
@@ -28,13 +28,13 @@ import BikeshareDiagram from '../../components/diagrams/BikeshareDiagram.astro';
   <Fragment slot="links">
     <a
       href="https://github.com/koshiroquoc/bikeshare-forecast"
-      class="u-link font-mono text-[13px] tracking-[0.04em] text-accent"
+      class="u-link inline-flex min-h-11 items-center font-mono text-[13px] tracking-[0.04em] text-accent"
       target="_blank"
-      rel="noreferrer"
+      rel="noopener noreferrer"
     >
       repo ↗
     </a>
-    <span class="font-mono text-[13px] tracking-[0.04em] text-muted">
+    <span class="inline-flex min-h-11 items-center font-mono text-[13px] tracking-[0.04em] text-muted">
       local API · Docker Compose
     </span>
   </Fragment>
@@ -103,7 +103,13 @@ import BikeshareDiagram from '../../components/diagrams/BikeshareDiagram.astro';
       </div>
     </div>
 
-    <div class="mt-12 max-w-[720px] overflow-x-auto">
+    <div
+      class="data-scroll mt-12 max-w-[720px] overflow-x-auto"
+      tabindex="0"
+      role="region"
+      aria-label="Four-month rolling-origin results. Scroll horizontally to see all metrics."
+      data-scroll-label="Table · scroll horizontally →"
+    >
       <table class="w-full min-w-[560px] border-collapse text-left">
         <caption class="caption mb-4 text-left text-muted">
           Four-month rolling-origin results

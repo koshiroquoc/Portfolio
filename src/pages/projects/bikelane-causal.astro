@@ -22,18 +22,23 @@ import geographyPlacebo from '../../assets/figures/bikelane-geography-placebo.pn
   <Fragment slot="links">
     <a
       href="https://github.com/koshiroquoc/bikelane-causal"
-      class="u-link font-mono text-[13px] tracking-[0.04em] text-accent"
+      class="u-link inline-flex min-h-11 items-center font-mono text-[13px] tracking-[0.04em] text-accent"
       target="_blank"
-      rel="noreferrer"
+      rel="noopener noreferrer"
     >
       repo ↗
     </a>
-    <span class="font-mono text-[13px] tracking-[0.04em] text-muted">
+    <span class="inline-flex min-h-11 items-center font-mono text-[13px] tracking-[0.04em] text-muted">
       release v1.0.0 · make reproduce
     </span>
-    <span class="font-mono text-[13px] tracking-[0.04em] text-muted">
+    <span class="inline-flex min-h-11 flex-wrap items-center gap-x-2 font-mono text-[13px] tracking-[0.04em] text-muted">
       panel from
-      <a href="/projects/bikeshare-forecast" class="u-link text-accent">Divvy forecasting ↗</a>
+      <a
+        href="/projects/bikeshare-forecast"
+        class="u-link inline-flex min-h-11 items-center text-accent"
+      >
+        Divvy forecasting ↗
+      </a>
     </span>
   </Fragment>
 
@@ -133,7 +138,13 @@ import geographyPlacebo from '../../assets/figures/bikelane-geography-placebo.pn
       </figcaption>
     </figure>
 
-    <div class="mt-12 max-w-[860px] overflow-x-auto">
+    <div
+      class="data-scroll mt-12 max-w-[860px] overflow-x-auto"
+      tabindex="0"
+      role="region"
+      aria-label="Pre-registered estimator registry. Scroll horizontally to see all metrics."
+      data-scroll-label="Table · scroll horizontally →"
+    >
       <table class="w-full min-w-[620px] border-collapse text-left">
         <caption class="caption mb-4 text-left text-muted">
           Pre-registered estimator registry
@@ -224,7 +235,13 @@ import geographyPlacebo from '../../assets/figures/bikelane-geography-placebo.pn
       </figcaption>
     </figure>
 
-    <div class="mt-12 max-w-[860px] overflow-x-auto">
+    <div
+      class="data-scroll mt-12 max-w-[860px] overflow-x-auto"
+      tabindex="0"
+      role="region"
+      aria-label="Robustness and falsification results. Scroll horizontally to see all metrics."
+      data-scroll-label="Table · scroll horizontally →"
+    >
       <table class="w-full min-w-[620px] border-collapse text-left">
         <caption class="caption mb-4 text-left text-muted">
           Robustness and falsification — 16 specifications
@@ -277,7 +294,10 @@ import geographyPlacebo from '../../assets/figures/bikelane-geography-placebo.pn
           <tr class="border-b border-grid">
             <td class="py-3 pr-4">Conservative dates ±1 month</td>
             <td class="py-3 pr-4">−14.5% to −8.6%</td>
-            <td class="py-3 text-point">−1 month moves the CI off zero</td>
+            <td class="py-3 text-ink">
+              <span class="mr-2 inline-block h-1.5 w-1.5 rounded-full bg-point" aria-hidden="true"></span>
+              −1 month moves the CI off zero
+            </td>
           </tr>
           <tr class="border-b border-grid">
             <td class="py-3 pr-4">Timing placebo, 6 months early</td>
@@ -287,7 +307,10 @@ import geographyPlacebo from '../../assets/figures/bikelane-geography-placebo.pn
           <tr class="border-b border-grid">
             <td class="py-3 pr-4">50 matched geography placebos</td>
             <td class="py-3 pr-4">median +3.2%, tail p = 0.235</td>
-            <td class="py-3 text-point">fails the locked 0.10 criterion</td>
+            <td class="py-3 text-ink">
+              <span class="mr-2 inline-block h-1.5 w-1.5 rounded-full bg-point" aria-hidden="true"></span>
+              fails the locked 0.10 criterion
+            </td>
           </tr>
         </tbody>
       </table>

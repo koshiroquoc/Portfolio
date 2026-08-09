@@ -20,10 +20,10 @@ const { href, title, description, metrics, tags } = Astro.props;
   <span
     class="card-dot absolute top-4 right-4 h-2 w-2 rounded-full bg-point"
     aria-hidden="true"></span>
-  <!-- Visual slot: the project's architecture figure. TODO: swap for a
-       product screenshot if one reads better at this size. -->
+  <!-- Visual slot: the project's architecture figure, drawn in the palette so
+       it reads as a figure rather than a screenshot. -->
   <div
-    class="card-visual mb-6 flex h-[180px] items-center justify-center overflow-hidden rounded-lg border border-grid bg-paper"
+    class="card-visual mb-6 flex h-[180px] items-center justify-center border-b border-grid pb-6"
     aria-hidden="true"
   >
     <slot name="visual" />
@@ -46,13 +46,17 @@ const { href, title, description, metrics, tags } = Astro.props;
       ))
     }
   </div>
-  <div class="flex flex-wrap gap-2">
+  <div class="flex flex-wrap items-center gap-x-3 gap-y-2">
     {
       tags.map((tag) => (
-        <span class="rounded-full border border-grid px-3 py-1 font-mono text-xs tracking-[0.04em] text-ink">
+        <span class="border-l border-grid pl-3 font-mono text-[11px] tracking-[0.06em] uppercase text-muted first:border-l-0 first:pl-0">
           {tag}
         </span>
       ))
     }
   </div>
+  <span
+    class="mt-6 inline-flex font-mono text-[11px] tracking-[0.08em] uppercase text-accent"
+    aria-hidden="true">View case study →</span
+  >
 </article>

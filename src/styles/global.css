@@ -1,5 +1,30 @@
 @import "tailwindcss";
 
+/* Google Fonts, self-hosted to keep first paint independent of a third party. */
+@font-face {
+  font-family: "Space Grotesk";
+  src: url("/fonts/space-grotesk-latin.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/inter-latin.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/fonts/jetbrains-mono-latin.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+}
+
 @theme {
   /* Color tokens — the ONLY colors on the site */
   --color-paper: #FBFBF9;
@@ -51,6 +76,26 @@
     margin-inline: auto;
     padding-inline: 24px;
     width: 100%;
+  }
+
+  /* Keyboard users can bypass the sticky navigation and long hero. */
+  .skip-link {
+    position: fixed;
+    top: 8px;
+    left: 8px;
+    z-index: 60;
+    transform: translateY(-200%);
+    border: 1px solid var(--color-accent);
+    border-radius: 4px;
+    background: var(--color-paper);
+    color: var(--color-accent);
+    padding: 12px 16px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .skip-link:focus-visible {
+    transform: translateY(0);
   }
 
   /* Mono figure caption: 13px, uppercase, tracking 0.08em */
@@ -111,10 +156,15 @@
     opacity: 1;
   }
 
+  /* Wide evidence stays legible on mobile and remains keyboard-scrollable. */
+  .data-scroll::before {
+    content: attr(data-scroll-label);
+    display: none;
+  }
+
   /* Nav active-section point dot */
   .nav-dot {
     opacity: 0;
-    transition: opacity 0.18s ease;
   }
   a[data-active="true"] .nav-dot {
     opacity: 1;
@@ -155,10 +205,25 @@
   /* Sticky nav: border appears once scrolled past the hero */
   #site-nav {
     border-bottom: 1px solid transparent;
-    transition: border-color 0.18s ease;
   }
   #site-nav.scrolled {
     border-bottom-color: var(--color-grid);
+  }
+}
+
+@media (max-width: 767px) {
+  .data-scroll::before {
+    position: sticky;
+    left: 0;
+    display: block;
+    width: max-content;
+    margin-bottom: 8px;
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
   }
 }
 
@@ -173,9 +238,7 @@
   }
   .u-link,
   .card,
-  .card .card-dot,
-  .nav-dot,
-  #site-nav {
+  .card .card-dot {
     transition: none !important;
   }
   .card:hover,

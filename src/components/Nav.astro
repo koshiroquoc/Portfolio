@@ -4,21 +4,34 @@
 // page is scrolled past the hero.
 ---
 
+<a href="#main-content" class="skip-link">Skip to content</a>
+
 <nav id="site-nav" class="sticky top-0 z-50 h-16 bg-paper" aria-label="Main">
   <div class="container-site flex h-full items-center justify-between gap-2 sm:gap-4">
-    <a href="/" class="u-link font-mono text-[13px] font-medium tracking-[0.04em] text-ink"
+    <a
+      href="/"
+      class="u-link inline-flex min-h-11 items-center font-mono text-[12px] font-medium tracking-[0.03em] text-ink sm:text-[13px] sm:tracking-[0.04em]"
       >quoc_nguyen<span class="text-muted">.py</span></a
     >
     <!-- The point dot is absolutely positioned above its label: at 390px the row
          needs every pixel, and three inline dots cost 30px of layout width. -->
     <div class="flex items-center gap-2 sm:gap-6">
-      <a href="/#projects" data-nav="projects" class="caption u-link relative inline-flex min-h-11 items-center text-ink"
+      <a
+        href="/#projects"
+        data-nav="projects"
+        class="u-link relative inline-flex min-h-11 items-center px-1 font-mono text-[11px] font-medium tracking-[0.06em] text-ink uppercase sm:text-[13px] sm:tracking-[0.08em]"
         >Projects<span class="nav-dot absolute top-1.5 left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-point" aria-hidden="true"></span></a
       >
-      <a href="/#about" data-nav="about" class="caption u-link relative inline-flex min-h-11 items-center text-ink"
+      <a
+        href="/#about"
+        data-nav="about"
+        class="u-link relative inline-flex min-h-11 items-center px-1 font-mono text-[11px] font-medium tracking-[0.06em] text-ink uppercase sm:text-[13px] sm:tracking-[0.08em]"
         >About<span class="nav-dot absolute top-1.5 left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-point" aria-hidden="true"></span></a
       >
-      <a href="/#contact" data-nav="contact" class="caption u-link relative inline-flex min-h-11 items-center text-ink"
+      <a
+        href="/#contact"
+        data-nav="contact"
+        class="u-link relative inline-flex min-h-11 items-center px-1 font-mono text-[11px] font-medium tracking-[0.06em] text-ink uppercase sm:text-[13px] sm:tracking-[0.08em]"
         >Contact<span class="nav-dot absolute top-1.5 left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-point" aria-hidden="true"></span></a
       >
     </div>
@@ -45,13 +58,16 @@
       for (const entry of entries) {
         if (!entry.isIntersecting) continue;
         for (const link of links) {
-          link.dataset.active = String(link.dataset.nav === entry.target.id);
+          const active = link.dataset.nav === entry.target.id;
+          link.dataset.active = String(active);
+          if (active) link.setAttribute('aria-current', 'location');
+          else link.removeAttribute('aria-current');
         }
       }
     },
     { rootMargin: '-45% 0px -50% 0px', threshold: 0 }
   );
-  for (const id of ['projects', 'about', 'contact']) {
+  for (const id of ['projects', 'toolkit', 'about', 'contact']) {
     const el = document.getElementById(id);
     if (el) sectionIO.observe(el);
   }
