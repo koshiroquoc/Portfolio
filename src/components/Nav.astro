@@ -1,5 +1,5 @@
 ---
-// Sticky nav: mono wordmark left, three mono links right. The active section
+// Sticky nav: mono wordmark left, three section links plus the resume right. The active section
 // is marked with the orange point dot; a 1px grid border fades in once the
 // page is scrolled past the hero.
 ---
@@ -11,27 +11,34 @@
     <a
       href="/"
       class="u-link inline-flex min-h-11 items-center font-mono text-[12px] font-medium tracking-[0.03em] text-ink sm:text-[13px] sm:tracking-[0.04em]"
-      >quoc_nguyen<span class="text-muted">.py</span></a
+      >quoc_nguyen<span class="text-muted max-[410px]:hidden">.py</span></a
     >
     <!-- The point dot is absolutely positioned above its label: at 390px the row
          needs every pixel, and three inline dots cost 30px of layout width. -->
-    <div class="flex items-center gap-2 sm:gap-6">
+    <div class="flex items-center gap-1 min-[411px]:gap-2 sm:gap-6">
       <a
         href="/#projects"
         data-nav="projects"
-        class="u-link relative inline-flex min-h-11 items-center px-1 font-mono text-[11px] font-medium tracking-[0.06em] text-ink uppercase sm:text-[13px] sm:tracking-[0.08em]"
+        class="u-link relative inline-flex min-h-11 items-center px-0.5 font-mono text-[11px] font-medium tracking-[0.06em] text-ink uppercase min-[411px]:px-1 sm:text-[13px] sm:tracking-[0.08em]"
         >Projects<span class="nav-dot absolute top-1.5 left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-point" aria-hidden="true"></span></a
       >
       <a
         href="/#about"
         data-nav="about"
-        class="u-link relative inline-flex min-h-11 items-center px-1 font-mono text-[11px] font-medium tracking-[0.06em] text-ink uppercase sm:text-[13px] sm:tracking-[0.08em]"
+        class="u-link relative inline-flex min-h-11 items-center px-0.5 font-mono text-[11px] font-medium tracking-[0.06em] text-ink uppercase min-[411px]:px-1 sm:text-[13px] sm:tracking-[0.08em]"
         >About<span class="nav-dot absolute top-1.5 left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-point" aria-hidden="true"></span></a
+      >
+      <a
+        href="/resume.pdf"
+        class="u-link inline-flex min-h-11 items-center px-0.5 font-mono text-[11px] font-medium tracking-[0.06em] text-accent uppercase min-[411px]:px-1 sm:text-[13px] sm:tracking-[0.08em]"
+        target="_blank"
+        rel="noopener noreferrer"
+        >Resume ↗</a
       >
       <a
         href="/#contact"
         data-nav="contact"
-        class="u-link relative inline-flex min-h-11 items-center px-1 font-mono text-[11px] font-medium tracking-[0.06em] text-ink uppercase sm:text-[13px] sm:tracking-[0.08em]"
+        class="u-link relative inline-flex min-h-11 items-center px-0.5 font-mono text-[11px] font-medium tracking-[0.06em] text-ink uppercase min-[411px]:px-1 sm:text-[13px] sm:tracking-[0.08em]"
         >Contact<span class="nav-dot absolute top-1.5 left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-point" aria-hidden="true"></span></a
       >
     </div>
