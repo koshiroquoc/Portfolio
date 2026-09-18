@@ -9,7 +9,7 @@ import OtherWork from '../components/OtherWork.astro';
 import CausalDiagram from '../components/diagrams/CausalDiagram.astro';
 import RagDiagram from '../components/diagrams/RagDiagram.astro';
 import BikeshareDiagram from '../components/diagrams/BikeshareDiagram.astro';
-import portrait from '../assets/portrait.jpg';
+import headshot from '../assets/headshot.jpeg';
 
 // Table 1 — secondary team projects. Role is stated so nothing here implies
 // more ownership than the git history supports.
@@ -31,29 +31,37 @@ const otherWork = [
 ];
 
 const toolkit = [
-  { group: 'Languages', tags: ['Python', 'R', 'SQL', 'C++'] },
+  { group: 'Languages', tags: ['Python', 'R', 'SQL'] },
   {
     group: 'Inference & Modeling',
     tags: [
-      'statsmodels',
-      'SciPy',
       'DiD / group-time ATT',
       'bootstrap CIs',
       'scikit-learn',
       'LightGBM',
+      'time-series forecasting',
     ],
   },
   {
-    group: 'Data & Evals',
-    tags: ['pandas', 'Polars', 'GeoPandas', 'Elasticsearch', 'eval harnesses', 'Docker', 'CI'],
+    group: 'Data & Systems',
+    tags: [
+      'Polars',
+      'DuckDB',
+      'Prefect',
+      'FastAPI',
+      'Elasticsearch',
+      'Docker',
+      'GitHub Actions',
+      'MLflow',
+    ],
   },
 ];
 
 ---
 
 <Base
-  title="Quoc Nguyen — Data Science"
-  description="Quoc Nguyen — Data Science / Math student working on causal inference and evaluation: designs locked before results are read. Open to product / experimentation Data Science roles, Fall 2026."
+  title="Quoc Van Nguyen — Data Science"
+  description="Quoc Van Nguyen is a Data Science, Statistics, and Mathematics student at UW–Madison building trustworthy forecasting, causal inference, and retrieval systems."
 >
   <Nav />
 
@@ -65,7 +73,7 @@ const toolkit = [
     <div class="ticks-bottom absolute inset-x-0 bottom-0 h-[7px]" aria-hidden="true"></div>
     <div class="container-site relative">
       <p class="caption anim mb-6 text-muted" style="--d: 0ms">
-        Quoc Nguyen — Data Science / Math
+        Quoc Van Nguyen — Data Science / Statistics / Math
       </p>
       <h1
         class="anim font-display max-w-[15ch] text-[clamp(40px,6.5vw,96px)] leading-[1.05] font-semibold tracking-[-0.02em]"
@@ -74,14 +82,21 @@ const toolkit = [
         I design experiments and <span class="text-accent">measure</span> what changes product
         decisions.
       </h1>
-      <p
-        class="anim mt-8 max-w-[80ch] font-mono text-[13px] tracking-[0.06em] text-muted"
+      <div
+        class="anim mt-8 flex max-w-[80ch] flex-wrap items-center gap-x-6 gap-y-1 font-mono text-[13px] tracking-[0.06em] text-muted"
         style="--d: 120ms"
       >
-        // <span class="text-ink">Madison, WI</span> · Open to product / experimentation Data
-        Science roles — Fall 2026
-      </p>
-      <div class="anim mt-12 flex gap-12" style="--d: 180ms">
+        <p>// <span class="text-ink">Madison, WI</span> · UW–Madison · expected May 2028</p>
+        <a
+          href="/resume.pdf"
+          class="u-link inline-flex min-h-11 items-center text-accent"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          résumé.pdf ↗
+        </a>
+      </div>
+      <div class="anim mt-12 grid grid-cols-3 gap-4 sm:flex sm:gap-12" style="--d: 180ms">
         <div>
           <div class="font-mono text-[clamp(28px,3.2vw,44px)] leading-none font-medium text-ink">
             3
@@ -103,7 +118,7 @@ const toolkit = [
             3.8
           </div>
           <div class="mt-2 font-mono text-[11px] tracking-[0.06em] uppercase text-muted">
-            GPA · DS/Math
+            GPA · DS/Stats/Math
           </div>
         </div>
       </div>
@@ -159,9 +174,44 @@ const toolkit = [
     </div>
     </section>
 
+    <section id="experience" class="flex min-h-[75vh] flex-col justify-center py-16 md:py-30">
+    <h2 class="sr-only">Experience</h2>
+    <FigRule fig="Fig. 02" label="Experience" />
+    <div class="container-site">
+      <div class="border-y border-grid">
+        <article class="grid gap-4 border-b border-grid py-8 md:grid-cols-[220px_1fr_auto] md:gap-8">
+          <div>
+            <h3 class="font-display text-[24px] leading-tight font-semibold">AI Engineer Intern</h3>
+            <p class="mt-2 font-mono text-[13px] tracking-[0.04em] text-accent">DataHouse Asia</p>
+          </div>
+          <p class="max-w-[58ch] text-muted">
+            Contributed to an internal retrieval-augmented HR assistant, focusing on reducing
+            hallucination through prompt, retrieval, and source-grounded output evaluation.
+          </p>
+          <p class="font-mono text-[13px] tracking-[0.04em] text-muted md:text-right">
+            May–Aug 2025<br />Da Nang, Vietnam
+          </p>
+        </article>
+        <article class="grid gap-4 py-8 md:grid-cols-[220px_1fr_auto] md:gap-8">
+          <div>
+            <h3 class="font-display text-[24px] leading-tight font-semibold">Shift Lead</h3>
+            <p class="mt-2 font-mono text-[13px] tracking-[0.04em] text-accent">UW–Madison Housing</p>
+          </div>
+          <p class="max-w-[58ch] text-muted">
+            Led about 10 student workers per shift and trained more than 50 new employees on
+            operational workflows, safety, and cross-team collaboration.
+          </p>
+          <p class="font-mono text-[13px] tracking-[0.04em] text-muted md:text-right">
+            Oct 2024–Jul 2026<br />Madison, WI
+          </p>
+        </article>
+      </div>
+    </div>
+    </section>
+
     <section id="toolkit" class="flex min-h-[75vh] flex-col justify-center py-16 md:py-30">
     <h2 class="sr-only">Toolkit</h2>
-    <FigRule fig="Fig. 02" label="Toolkit" />
+    <FigRule fig="Fig. 03" label="Toolkit" />
     <div class="container-site">
       <div class="grid grid-cols-1 gap-6 sm:grid-cols-3">
         {
@@ -186,36 +236,36 @@ const toolkit = [
 
     <section id="about" class="flex min-h-[75vh] flex-col justify-center py-16 md:py-30">
     <h2 class="sr-only">About</h2>
-    <FigRule fig="Fig. 03" label="About" />
+    <FigRule fig="Fig. 04" label="About" />
     <div class="container-site">
       <div class="grid grid-cols-1 items-start gap-12 md:grid-cols-[1.4fr_1fr]">
         <div>
           <p class="max-w-[52ch] text-ink">
-            Hi, I'm Quoc Nguyen — a Data Science and Math student in Madison, Wisconsin. I care
-            less about how a model scores in isolation than whether its result can be trusted when
-            someone makes a product decision.
+            Hi, I'm Quoc Van Nguyen — a Data Science, Statistics, and Mathematics student at
+            UW–Madison. I care less about how a model scores in isolation than whether its result
+            can be trusted when someone makes a product decision.
           </p>
           <p class="mt-4 max-w-[52ch] text-muted">
             My work pairs causal designs for questions where before-and-after comparisons would
-            lie with evaluation harnesses for systems whose output is text. I lock the design and
-            thresholds before reading results, publish the checks that fail, and I'm looking for
-            product / experimentation Data Science roles starting Fall 2026.
+            lie with evaluation harnesses for systems whose output is text. That perspective grew
+            from building forecasting and retrieval systems, including an AI engineering internship
+            focused on reducing hallucination in an internal RAG assistant.
           </p>
         </div>
         <figure class="m-0">
           <div
-            class="relative aspect-[4/5] overflow-hidden rounded-xl border border-grid bg-accent-strong"
+            class="relative aspect-square overflow-hidden rounded-xl border border-grid bg-accent-strong"
           >
             <Image
-              src={portrait}
-              alt="Quoc Nguyen"
+              src={headshot}
+              alt="Quoc Van Nguyen wearing a navy suit and blue tie"
               widths={[400, 800, 1080]}
               sizes="(min-width: 768px) 420px, 90vw"
-              class="h-full w-full object-cover object-[60%_30%] mix-blend-luminosity brightness-105 contrast-[1.08] grayscale"
+              class="h-full w-full object-cover object-center mix-blend-luminosity brightness-105 contrast-[1.08] grayscale"
             />
           </div>
           <figcaption class="mt-3 font-mono text-[13px] tracking-[0.05em] text-muted">
-            Self-portrait · shot on a Nikon D7100
+            Quoc Van Nguyen · Madison, WI
           </figcaption>
         </figure>
       </div>
@@ -225,13 +275,13 @@ const toolkit = [
     {/* Off the clock is deferred until real photos and EXIF exist. See PRODUCT.md. */}
     <section id="contact" class="flex min-h-[75vh] flex-col justify-center py-16 md:py-30">
     <h2 class="sr-only">Contact</h2>
-    <FigRule fig="Fig. 04" label="Contact" />
+    <FigRule fig="Fig. 05" label="Contact" />
     <div class="container-site">
       <div class="flex flex-col items-start gap-4">
         <a
-          href="mailto:quocnguyenvan49@gmail.com"
+          href="mailto:qvnguyen3@wisc.edu"
           class="u-link font-mono text-[clamp(18px,3vw,26px)] font-medium text-accent"
-          ><span class="text-muted">email </span>quocnguyenvan49@gmail.com</a
+          ><span class="text-muted">email </span>qvnguyen3@wisc.edu</a
         >
         <a
           href="https://github.com/koshiroquoc"
@@ -243,9 +293,16 @@ const toolkit = [
           class="u-link font-mono text-[clamp(18px,3vw,26px)] font-medium text-ink"
           ><span class="text-muted">linkedin </span>linkedin.com/in/quoc-nguyenvan</a
         >
+        <a
+          href="/resume.pdf"
+          class="u-link font-mono text-[clamp(18px,3vw,26px)] font-medium text-ink"
+          target="_blank"
+          rel="noopener noreferrer"
+          ><span class="text-muted">résumé </span>view PDF ↗</a
+        >
       </div>
       <p class="mt-16 font-mono text-[11px] tracking-[0.05em] text-muted">
-        Fig. 01 — Quoc Nguyen · 2026 · built like a figure from a stats paper.
+        Fig. 05 — Quoc Van Nguyen · 2026 · built like a figure from a stats paper.
       </p>
     </div>
     </section>

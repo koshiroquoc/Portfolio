@@ -8,9 +8,9 @@ web
 
 ## Users
 
-The primary audience is recruiters and hiring managers evaluating Quoc Nguyen
-for Product Data Science and Experimentation Data Science roles starting in
-Fall 2026. They need to assess his judgment, technical depth, and ability to
+The primary audience is recruiters and hiring managers evaluating Quoc Van
+Nguyen for Product Data Science and Experimentation Data Science opportunities.
+They need to assess his judgment, technical depth, and ability to
 produce trustworthy evidence quickly from a portfolio scan, then verify the
 details in project write-ups.
 
@@ -50,11 +50,11 @@ evaluation design, results, failures, and next steps.
 
 ## Brand Commitments
 
-- Name: Quoc Nguyen.
+- Name: Quoc Van Nguyen.
 - Voice: rigorous, direct, concise, honest about uncertainty and failed checks.
 - Core idea: the site reads like a carefully designed figure from a statistics
   paper, using measured evidence as both content and personality.
-- Existing portrait and project evidence must be preserved.
+- Existing headshot and project evidence must be preserved.
 
 ## Evidence on Hand
 
@@ -63,7 +63,8 @@ evaluation design, results, failures, and next steps.
   demand forecasting.
 - Published evaluation metrics, automated test counts, robustness
   specifications, and project-specific technical write-ups in `src/`.
-- A real portrait at `src/assets/portrait.jpg`.
+- A professional headshot at `src/assets/headshot.jpeg`.
+- The current résumé at `public/resume.pdf`.
 - Off-the-clock photos and their EXIF data are not yet present. The section is
   omitted until those assets exist; future work must not invent the values.
 

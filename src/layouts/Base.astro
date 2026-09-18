@@ -6,9 +6,10 @@ interface Props {
   description: string;
 }
 const { title, description } = Astro.props;
-// Absolute og:image once `site` is set in astro.config (required before deploy);
-// falls back to a relative path until then.
 const ogImage = Astro.site ? new URL('/og.png', Astro.site).href : '/og.png';
+const canonicalUrl = Astro.site
+  ? new URL(Astro.url.pathname, Astro.site).href
+  : Astro.url.href;
 ---
 
 <!doctype html>
@@ -18,10 +19,12 @@ const ogImage = Astro.site ? new URL('/og.png', Astro.site).href : '/og.png';
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:url" content={canonicalUrl} />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link
